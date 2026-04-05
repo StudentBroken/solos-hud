@@ -145,48 +145,41 @@ class WeatherRenderer {
     c.drawRect(Rect.fromLTWH(0, 168, _dw.toDouble(), 1), _fill(_divider));
   }
 
-  // ── Bottom: 6-hour forecast strip ───────────────────────────────────────
+  // ── Bottom: 24-hour forecast strip (every 2h = max 12 visible slots) ───────
 
   static void _drawHourly(ui.Canvas c, List<HourlyWeather> hourly) {
     if (hourly.isEmpty) return;
-    const y = 176.0;
-    final count = hourly.length.clamp(1, 6);
-    final colW = _dw / count;
 
-    for (int i = 0; i < count; i++) {
-      final h = hourly[i];
-      final x = colW * i + 4;
+    // Sample every 2nd entry so we cover 24 h in 12 columns
+    final slots = <HourlyWeather>[];
+    for (int i = 0; i < hourly.length && slots.length < 12; i += 2) {
+      slots.add(hourly[i]);
+    }
+    if (slots.isEmpty) return;
+
+    const y = 172.0;
+    final colW = _dw / slots.length;
+
+    for (int i = 0; i < slots.length; i++) {
+      final h = slots[i];
+      final x = colW * i + 2;
       final hh = h.time.hour.toString().padLeft(2, '0');
-      _text(
-        c,
-        '$hh:00',
-        x: x,
-        y: y,
-        size: 12,
-        color: _muted,
-        align: ui.TextAlign.left,
-        maxW: colW - 4,
-      );
-      _text(
-        c,
-        h.condition.symbol,
-        x: x,
-        y: y + 15,
-        size: 16,
-        color: _conditionColor(h.condition),
-        align: ui.TextAlign.left,
-        maxW: colW - 4,
-      );
-      _text(
-        c,
-        '${h.tempC.round()}°',
-        x: x,
-        y: y + 34,
-        size: 16,
-        color: _white,
-        align: ui.TextAlign.left,
-        maxW: colW - 4,
-      );
+      _text(c, '$hh:00',
+          x: x, y: y, size: 11, color: _muted,
+          align: ui.TextAlign.left, maxW: colW - 2);
+      _text(c, h.condition.symbol,
+          x: x, y: y + 14, size: 14,
+          color: _conditionColor(h.condition),
+          align: ui.TextAlign.left, maxW: colW - 2);
+      _text(c, '${h.tempC.round()}°',
+          x: x, y: y + 30, size: 14, color: _white,
+          align: ui.TextAlign.left, maxW: colW - 2);
+      if (h.precipPct != null && h.precipPct! >= 20) {
+        _text(c, '${h.precipPct}%',
+            x: x, y: y + 46, size: 10,
+            color: const Color(0xFF4499FF),
+            align: ui.TextAlign.left, maxW: colW - 2);
+      }
     }
   }
 

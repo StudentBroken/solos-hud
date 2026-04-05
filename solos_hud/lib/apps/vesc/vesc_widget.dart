@@ -1,30 +1,176 @@
 import 'package:flutter/material.dart';
 import '../../core/vesc/vesc_service.dart';
+import 'vesc_app.dart';
 
-class VescPhoneWidget extends StatelessWidget {
+class VescPhoneWidget extends StatefulWidget {
   final VescService vesc;
-  const VescPhoneWidget({super.key, required this.vesc});
+  final VescApp app;
+  const VescPhoneWidget({super.key, required this.vesc, required this.app});
 
+  @override
+  State<VescPhoneWidget> createState() => _VescPhoneWidgetState();
+}
+
+class _VescPhoneWidgetState extends State<VescPhoneWidget> {
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-      listenable: Listenable.merge([vesc, vesc.settings]),
+      listenable: Listenable.merge([widget.vesc, widget.vesc.settings]),
       builder: (context, _) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _ConnectionCard(vesc: vesc),
+            _ConnectionCard(vesc: widget.vesc),
             const SizedBox(height: 12),
-            if (vesc.isConnected && vesc.values != null) ...[
-              _TelemetryGrid(vesc: vesc),
+            if (widget.vesc.isConnected && widget.vesc.values != null) ...[
+              _FocusSelector(app: widget.app),
               const SizedBox(height: 12),
-              _TemperatureBar(vesc: vesc),
+              _TelemetryGrid(vesc: widget.vesc),
+              const SizedBox(height: 12),
+              _TemperatureBar(vesc: widget.vesc),
               const SizedBox(height: 12),
             ],
-            _BoardSettings(vesc: vesc),
+            _BoardSettings(vesc: widget.vesc),
           ],
         );
       },
+    );
+  }
+}
+
+// ── Focus selector ────────────────────────────────────────────────────────────
+
+class _FocusSelector extends StatefulWidget {
+  final VescApp app;
+  const _FocusSelector({required this.app});
+
+  @override
+  State<_FocusSelector> createState() => _FocusSelectorState();
+}
+
+class _FocusSelectorState extends State<_FocusSelector> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade900,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+            color: Colors.cyanAccent.withValues(alpha: 0.2)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.visibility_outlined,
+                  size: 14, color: Colors.cyanAccent),
+              const SizedBox(width: 6),
+              const Text(
+                'Glasses Focus',
+                style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.cyanAccent,
+                    fontWeight: FontWeight.w600),
+              ),
+              const Spacer(),
+              Text(
+                'FRONT / BACK to cycle',
+                style: TextStyle(fontSize: 10, color: Colors.grey.shade600),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              // Prev button
+              _NavBtn(
+                icon: Icons.arrow_upward,
+                onTap: () => setState(() => widget.app.cycleFocusPrev()),
+              ),
+              const SizedBox(width: 8),
+              // Segmented indicator
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: VescFocus.values.map((f) {
+                    final selected = f == widget.app.focus;
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          while (widget.app.focus != f) {
+                            widget.app.cycleFocusNext();
+                          }
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 180),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: selected
+                              ? Colors.cyanAccent.withValues(alpha: 0.18)
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(
+                            color: selected
+                                ? Colors.cyanAccent.withValues(alpha: 0.6)
+                                : Colors.transparent,
+                          ),
+                        ),
+                        child: Text(
+                          f.label,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: selected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                            color: selected
+                                ? Colors.cyanAccent
+                                : Colors.grey.shade500,
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+              const SizedBox(width: 8),
+              // Next button
+              _NavBtn(
+                icon: Icons.arrow_downward,
+                onTap: () => setState(() => widget.app.cycleFocusNext()),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _NavBtn extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onTap;
+  const _NavBtn({required this.icon, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        width: 36,
+        height: 36,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.cyanAccent.withValues(alpha: 0.1),
+          border:
+              Border.all(color: Colors.cyanAccent.withValues(alpha: 0.3)),
+        ),
+        child: Icon(icon, size: 16, color: Colors.cyanAccent),
+      ),
     );
   }
 }

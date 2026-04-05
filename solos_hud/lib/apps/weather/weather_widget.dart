@@ -161,14 +161,29 @@ class _HourlyStrip extends StatelessWidget {
   Widget build(BuildContext context) {
     if (hourly.isEmpty) return const SizedBox.shrink();
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.grey.shade900,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: hourly.map((h) => _HourlyCell(h: h)).toList(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 8, 12, 4),
+            child: Text(
+              'Next 24 hours',
+              style: TextStyle(fontSize: 11, color: Colors.grey.shade500,
+                  fontWeight: FontWeight.w600),
+            ),
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 10),
+            child: Row(
+              children: hourly.map((h) => _HourlyCell(h: h)).toList(),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -181,24 +196,34 @@ class _HourlyCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hh = h.time.hour.toString().padLeft(2, '0');
-    return Column(
-      children: [
-        Text(
-          '$hh:00',
-          style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
-        ),
-        const SizedBox(height: 4),
-        Text(h.condition.symbol, style: const TextStyle(fontSize: 20)),
-        const SizedBox(height: 4),
-        Text(
-          '${h.tempC.round()}°',
-          style: const TextStyle(
-            fontSize: 14,
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 6),
+      child: Column(
+        children: [
+          Text(
+            '$hh:00',
+            style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
           ),
-        ),
-      ],
+          const SizedBox(height: 4),
+          Text(h.condition.symbol, style: const TextStyle(fontSize: 20)),
+          const SizedBox(height: 4),
+          Text(
+            '${h.tempC.round()}°',
+            style: const TextStyle(
+              fontSize: 14,
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          if (h.precipPct != null && h.precipPct! >= 10) ...[
+            const SizedBox(height: 2),
+            Text(
+              '${h.precipPct}%',
+              style: const TextStyle(fontSize: 10, color: Color(0xFF4499FF)),
+            ),
+          ],
+        ],
+      ),
     );
   }
 }

@@ -102,33 +102,22 @@ class MusicApp extends GlassesApp {
     final dw = SolosProtocol.displayWidth.toDouble();
     final dh = SolosProtocol.displayHeight.toDouble();
 
-    const bg = Color(0xFF050810);
+    const bg    = Color(0xFF050810);
     const white = Color(0xFFFFFFFF);
-    const muted = Color(0xFFBBCCDD); // brighter — was 0xFF88AABB (too dim)
+    const muted = Color(0xFFBBCCDD);
 
-    final rec = ui.PictureRecorder();
+    final rec    = ui.PictureRecorder();
     final canvas = ui.Canvas(rec, Rect.fromLTWH(0, 0, dw, dh));
-    canvas.drawRect(
-      Rect.fromLTWH(0, 0, dw, dh),
-      ui.Paint()
-        ..color = bg
-        ..style = ui.PaintingStyle.fill,
-    );
+    canvas.drawRect(Rect.fromLTWH(0, 0, dw, dh),
+        ui.Paint()..color = bg..style = ui.PaintingStyle.fill);
 
     if (track == null) {
-      _drawText(
-        canvas,
-        'Nothing playing',
-        0,
-        116,
-        22,
-        const Color(0xFF557799),
-        false,
-        ui.TextAlign.center,
-        dw,
-      );
+      _drawText(canvas, '♪  Nothing playing',
+          0, dh / 2 - 16, 28, const Color(0xFF557799),
+          false, ui.TextAlign.center, dw);
     } else {
-      // ── Album art (left 240px square) ─────────────────────────────────
+      // ── Small album art thumbnail (left, 80×80) ────────────────────────
+      const artSize = 84.0;
       if (track.albumArtJpeg != null) {
         if (_cachedArtBytes != track.albumArtJpeg) {
           _cachedImage?.dispose();
@@ -136,98 +125,59 @@ class MusicApp extends GlassesApp {
           _cachedArtBytes = track.albumArtJpeg;
         }
         if (_cachedImage != null) {
-          // Draw album art in a 240×240 box on the left
           canvas.drawImageRect(
             _cachedImage!,
-            Rect.fromLTWH(0, 0, 128, 128),
-            Rect.fromLTWH(0, 0, 240, 240),
+            Rect.fromLTWH(0, 0,
+                _cachedImage!.width.toDouble(),
+                _cachedImage!.height.toDouble()),
+            Rect.fromLTWH(4, (dh - artSize) / 2, artSize, artSize),
             ui.Paint(),
           );
-          // Gradient overlay to blend art with text area
-          final grad = ui.Paint()
-            ..shader = ui.Gradient.linear(
-              const Offset(180, 0),
-              const Offset(240, 0),
-              [Colors.transparent, bg],
-            );
-          canvas.drawRect(Rect.fromLTWH(180, 0, 60, dh), grad);
+          // Soft right-edge fade
+          canvas.drawRect(
+            Rect.fromLTWH(artSize - 16, 0, 24, dh),
+            ui.Paint()
+              ..shader = ui.Gradient.linear(
+                Offset(artSize - 16, 0),
+                Offset(artSize + 8, 0),
+                [Colors.transparent, bg],
+              ),
+          );
         }
       } else {
-        // No art — draw a placeholder
         canvas.drawRect(
-          Rect.fromLTWH(0, 0, 240, 240),
-          ui.Paint()
-            ..color = const Color(0xFF0A1020)
-            ..style = ui.PaintingStyle.fill,
+          Rect.fromLTWH(4, (dh - artSize) / 2, artSize, artSize),
+          ui.Paint()..color = const Color(0xFF0A1020),
         );
-        _drawText(
-          canvas,
-          '♪',
-          0,
-          72,
-          80,
-          const Color(0xFF446688),
-          false,
-          ui.TextAlign.center,
-          240,
-        );
+        _drawText(canvas, '♪', 4, (dh - artSize) / 2 + 10,
+            54, const Color(0xFF446688), false,
+            ui.TextAlign.center, artSize);
       }
 
-      // ── Track info (right side) ────────────────────────────────────────
-      const infoX = 248.0;
-      const infoW = 428 - infoX - 8;
+      // ── Track info — big text, right of thumbnail ──────────────────────
+      const infoX = artSize + 12;
+      final infoW  = dw - infoX - 8;
 
-      // App name badge
-      _drawText(
-        canvas,
-        track.appName.toUpperCase(),
-        infoX,
-        130, // Moved lower
-        11,
-        muted,
-        false,
-        ui.TextAlign.left,
-        infoW,
-      );
+      // App source (tiny label)
+      _drawText(canvas, track.appName.toUpperCase(),
+          infoX, 8, 13, const Color(0xFF445566),
+          false, ui.TextAlign.left, infoW);
 
-      // Title (Scrolling Marquee)
-      _drawScrollingText(
-        canvas,
-        track.displayTitle,
-        infoX,
-        40, // Slightly lower
-        34,
-        white,
-        true,
-        infoW,
-      );
+      // Title — large scrolling marquee
+      _drawScrollingText(canvas, track.displayTitle,
+          infoX, 28, 58, white, true, infoW);
 
-      // Artist
+      // Artist — large
       if (track.displayArtist.isNotEmpty) {
-        _drawText(
-          canvas,
-          track.displayArtist,
-          infoX,
-          95, // Moved lower
-          18,
-          muted,
-          false,
-          ui.TextAlign.left,
-          infoW,
-        );
+        _drawText(canvas, track.displayArtist,
+            infoX, 102, 38, muted,
+            false, ui.TextAlign.left, infoW);
       }
 
-      // Play/Pause indicator (Centered at bottom)
-      const iconSize = 28.0;
-      final centerX = infoX + (infoW - iconSize) / 2;
+      // Play / Pause indicator
+      const iconSize = 32.0;
       _drawPlaybackStatus(
-        canvas,
-        centerX,
-        165,
-        iconSize,
-        white,
-        track.isPlaying,
-      );
+          canvas, infoX + 4, 154, iconSize, white, track.isPlaying);
     }
 
     final picture = rec.endRecording();

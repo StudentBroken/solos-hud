@@ -78,10 +78,12 @@ class HourlyWeather {
   final DateTime time;
   final double tempC;
   final WeatherCondition condition;
+  final int? precipPct;
   const HourlyWeather({
     required this.time,
     required this.tempC,
     required this.condition,
+    this.precipPct,
   });
 }
 
@@ -176,8 +178,8 @@ class WeatherService extends ChangeNotifier {
         '&current=temperature_2m,apparent_temperature,weathercode'
         ',windspeed_10m,winddirection_10m,precipitation_probability'
         ',relativehumidity_2m,uv_index'
-        '&hourly=temperature_2m,weathercode'
-        '&forecast_days=1&timezone=auto',
+        '&hourly=temperature_2m,weathercode,precipitation_probability'
+        '&forecast_days=2&timezone=auto',
       );
 
       final res = await http
@@ -225,10 +227,11 @@ class WeatherService extends ChangeNotifier {
     final times = (hourly['time'] as List).cast<String>();
     final temps = (hourly['temperature_2m'] as List).cast<num>();
     final codes = (hourly['weathercode'] as List).cast<num>();
+    final precipList = (hourly['precipitation_probability'] as List?)?.cast<num>();
     final now = DateTime.now();
     final result = <HourlyWeather>[];
 
-    for (int i = 0; i < times.length && result.length < 6; i++) {
+    for (int i = 0; i < times.length && result.length < 24; i++) {
       final t = DateTime.parse(times[i]);
       if (t.isAfter(now)) {
         result.add(
@@ -236,6 +239,9 @@ class WeatherService extends ChangeNotifier {
             time: t,
             tempC: temps[i].toDouble(),
             condition: WeatherCondition.fromWmoCode(codes[i].toInt()),
+            precipPct: precipList != null && i < precipList.length
+                ? precipList[i].toInt()
+                : null,
           ),
         );
       }
