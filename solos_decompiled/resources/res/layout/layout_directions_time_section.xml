@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+    <Space
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="5">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_eta"
+            android:tint="@color/navigation_orange"/>
+        <Space
+            android:layout_width="@dimen/navigation_search_padding"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:gravity="center_vertical"
+            android:id="@+id/directions_total_time"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/ride_time_no_data"
+            style="@style/add_route_small"/>
+    </LinearLayout>
+</LinearLayout>

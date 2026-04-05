@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/group_com_selector"
+        android:id="@+id/menu_group_com"
+        android:orderInCategory="50"
+        android:title=""
+        android:showAsAction="always"/>
+    <item
+        android:icon="@drawable/ic_notification"
+        android:id="@+id/menu_warnings"
+        android:orderInCategory="55"
+        android:title=""
+        android:showAsAction="always"/>
+    <item
+        android:icon="@drawable/options_ic"
+        android:id="@+id/menu_ride_mode"
+        android:orderInCategory="65"
+        android:title=""
+        android:showAsAction="always"/>
+</menu>

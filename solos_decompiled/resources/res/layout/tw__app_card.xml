@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:twittersdk="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.twitter.sdk.android.core.internal.util.AspectRatioImageView
+        android:id="@+id/tw__app_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        twittersdk:tw__image_aspect_ratio="1.91"/>
+    <RelativeLayout
+        android:id="@+id/tw__app_info_layout"
+        style="@style/tw__CardAppInfoLayout">
+        <TextView
+            android:id="@+id/tw__app_install_button"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            style="@style/tw__CardInstallButton"/>
+        <TextView
+            android:id="@+id/tw__app_name"
+            android:layout_toLeftOf="@+id/tw__app_install_button"
+            android:layout_alignParentLeft="true"
+            style="@style/tw__CardAppName"/>
+        <TextView
+            android:id="@+id/tw__app_store_name"
+            android:layout_below="@+id/tw__app_name"
+            android:layout_alignParentLeft="true"
+            style="@style/tw__CardAppStoreName"/>
+    </RelativeLayout>
+</merge>

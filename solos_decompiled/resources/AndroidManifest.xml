@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="1688"
+    android:versionName="2.0.844"
+    package="com.kopin.solos"
+    platformBuildVersionCode="29"
+    platformBuildVersionName="10">
+    <uses-sdk
+        android:minSdkVersion="23"
+        android:targetSdkVersion="29"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-feature
+        android:glEsVersion="0x20000"
+        android:required="true"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <permission
+        android:name="com.kopin.solos.permission.C2D_MESSAGE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="com.kopin.solos.permission.C2D_MESSAGE"/>
+    <application
+        android:theme="@style/AppTheme"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:name="com.kopin.solos.SolosApplication"
+        android:allowBackup="false"
+        android:largeHeap="true"
+        android:supportsRtl="true">
+        <service
+            android:name="com.kopin.solos.HardwareReceiverService"
+            android:enabled="true"
+            android:exported="true"/>
+        <activity
+            android:theme="@style/VCTrackPrefsTheme"
+            android:label="@string/app_name"
+            android:name="com.kopin.solos.SetupActivity"
+            android:screenOrientation="portrait"
+            android:logo="@drawable/ic_action_solos_logo"/>
+        <activity
+            android:theme="@style/VCTrackPrefsTheme"
+            android:label="@string/app_name"
+            android:name="com.kopin.solos.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
+            android:logo="@mipmap/ic_launcher">
+            <intent-filter>
+                <action android:name="com.kopin.solos.IDLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/VCTrackPrefsTheme"
+            android:label="@string/save_ride"
+            android:name="com.kopin.solos.FinishRideActivity"
+            android:screenOrientation="portrait"
+            android:logo="@color/transparent">
+            <intent-filter>
+                <action android:name="com.kopin.solos.END_WORKOUT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/VCTrackPrefsTheme"
+            android:label="@string/title_activity_settings"
+            android:name="com.kopin.solos.settings.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:logo="@drawable/settings_2x"/>
+        <activity
+            android:theme="@style/QuickSettingsTheme"
+            android:label="@string/app_name"
+            android:name="com.kopin.solos.settings.QuickSettingsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.kopin.solos.share.strava.StravaActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.kopin.solos.share.strava.StravaWebView"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="com.kopin.solos.share.trainingpeaks.TPActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="com.kopin.solos.share.underarmour.MapMyActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/VCTrackPrefsTheme"
+            android:label="@string/title_activity_ride_preview"
+            android:name="com.kopin.solos.RidePreview"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.kopin.solos.PREVIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/VCTrackPrefsTheme"
+            android:label="@string/title_activity_ride_preview"
+            android:name="com.kopin.solos.RoutePreview"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/VCTrackPrefsTheme"
+            android:label="@string/app_name"
+            android:name="com.kopin.solos.update.FlashActivity"
+            android:screenOrientation="portrait"
+            android:logo="@mipmap/ic_launcher"/>
+        <activity
+            android:theme="@style/VCTrackPrefsTheme"
+            android:label="@string/app_name"
+            android:name="com.kopin.solos.update.CableFlashActivity"
+            android:screenOrientation="portrait"
+            android:logo="@mipmap/ic_launcher"/>
+        <receiver
+            android:name="com.kopin.solos.receivers.BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name"
+            android:name="com.facebook.FacebookActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <activity
+            android:label="@string/functional_threshold_power"
+            android:name="com.kopin.solos.functionalthresholdpower.ResultActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.kopin.solos.FTP_SUMMARY"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/VCTrackPrefsTheme"
+            android:label="@string/app_name"
+            android:name="com.kopin.solos.RideInformationActivity"
+            android:screenOrientation="portrait"
+            android:logo="@mipmap/ic_launcher"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/google_maps_key"/>
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"
+            android:authorities="com.facebook.app.FacebookContentProvider356293828038887"/>
+        <service
+            android:label="@string/app_name"
+            android:name="com.kopin.solos.notifications.NotificationService"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService"/>
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="ab2790e0f416ae2f6d3bef408b692062992b9953"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name"
+            android:name="com.kopin.solos.StartActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/VCTrackPrefsTheme"
+            android:label="@string/app_name"
+            android:name="com.kopin.solos.WelcomeActivity"
+            android:screenOrientation="portrait"
+            android:logo="@drawable/ic_action_solos_logo"/>
+        <activity
+            android:name="com.kopin.solos.config.ConfigActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.kopin.solos.wear.WatchInfoPagerActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.kopin.solos.wear.WatchModeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/VCTrackPrefsTheme"
+            android:label="Training"
+            android:name="com.kopin.solos.TrainingSummaryActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/VCTrackPrefsTheme"
+            android:label="Training"
+            android:name="com.kopin.solos.TrainingListActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/VCTrackPrefsTheme"
+            android:label="Training Summary"
+            android:name="com.kopin.solos.TrainingSegmentSummaryActivity"
+            android:screenOrientation="portrait"/>
+        <receiver
+            android:name="com.kopin.solos.ConnectivityUpdateReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.kopin.solos.WearMessageListenerService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED"/>
+                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED"/>
+                <data
+                    android:scheme="wear"
+                    android:host="*"/>
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="com.sec.android.support.multiwindow"
+            android:value="false"/>
+        <meta-data
+            android:name="com.samsung.android.sdk.multiwindow.multiinstance.enable"
+            android:value="false"/>
+        <meta-data
+            android:name="com.samsung.android.sdk.multiwindow.penwindow.enable"
+            android:value="false"/>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:exported="false"
+            android:authorities="com.kopin.solos.provider"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false"/>
+        <activity
+            android:name="com.digits.sdk.android.PhoneNumberActivity"
+            android:exported="false"
+            android:taskAffinity="com.digits.sdk.android"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateVisible"/>
+        <activity
+            android:name="com.digits.sdk.android.ConfirmationCodeActivity"
+            android:exported="false"
+            android:taskAffinity="com.digits.sdk.android"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateVisible"/>
+        <activity
+            android:name="com.digits.sdk.android.LoginCodeActivity"
+            android:exported="false"
+            android:taskAffinity="com.digits.sdk.android"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateVisible"/>
+        <activity
+            android:name="com.digits.sdk.android.PinCodeActivity"
+            android:exported="false"
+            android:taskAffinity="com.digits.sdk.android"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateVisible"/>
+        <activity
+            android:name="com.digits.sdk.android.FailureActivity"
+            android:exported="false"
+            android:taskAffinity="com.digits.sdk.android"
+            android:configChanges="screenSize|orientation"/>
+        <activity
+            android:name="com.digits.sdk.android.ContactsActivity"
+            android:exported="false"
+            android:configChanges="screenSize|orientation"/>
+        <activity
+            android:name="com.digits.sdk.android.EmailRequestActivity"
+            android:exported="false"
+            android:taskAffinity="com.digits.sdk.android"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateVisible"/>
+        <activity
+            android:name="com.digits.sdk.android.PhoneNumberActionBarActivity"
+            android:exported="false"
+            android:taskAffinity="com.digits.sdk.android"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateVisible"/>
+        <activity
+            android:name="com.digits.sdk.android.ConfirmationCodeActionBarActivity"
+            android:exported="false"
+            android:taskAffinity="com.digits.sdk.android"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateVisible"/>
+        <activity
+            android:name="com.digits.sdk.android.LoginCodeActionBarActivity"
+            android:exported="false"
+            android:taskAffinity="com.digits.sdk.android"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateVisible"/>
+        <activity
+            android:name="com.digits.sdk.android.FailureActionBarActivity"
+            android:exported="false"
+            android:taskAffinity="com.digits.sdk.android"
+            android:configChanges="screenSize|orientation"/>
+        <activity
+            android:name="com.digits.sdk.android.ContactsActionBarActivity"
+            android:exported="false"
+            android:configChanges="screenSize|orientation"/>
+        <activity
+            android:name="com.digits.sdk.android.PinCodeActionBarActivity"
+            android:exported="false"
+            android:taskAffinity="com.digits.sdk.android"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateVisible"/>
+        <activity
+            android:name="com.digits.sdk.android.EmailRequestActionBarActivity"
+            android:exported="false"
+            android:taskAffinity="com.digits.sdk.android"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateVisible"/>
+        <service
+            android:name="com.digits.sdk.android.ContactsUploadService"
+            android:enabled="true"
+            android:exported="false"/>
+        <activity
+            android:name="com.twitter.sdk.android.tweetcomposer.ComposerActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateVisible"/>
+        <service
+            android:name="com.twitter.sdk.android.tweetcomposer.TweetUploadService"
+            android:enabled="true"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/MediaTheme"
+            android:name="com.twitter.sdk.android.tweetui.PlayerActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/MediaTheme"
+            android:name="com.twitter.sdk.android.tweetui.GalleryActivity"/>
+        <activity
+            android:name="com.twitter.sdk.android.core.identity.OAuthActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:configChanges="screenSize|orientation"/>
+        <activity
+            android:label="@string/kit_name"
+            android:icon="@drawable/tw__transparent"
+            android:name="com.twitter.sdk.android.core.identity.ShareEmailActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:configChanges="screenSize|orientation"/>
+        <activity
+            android:theme="@style/VCTrackPrefsTheme"
+            android:name="com.kopin.groupcom.GroupComListActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:name="com.kopin.solos.share.peloton.PelotonActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:name="com.kopin.solos.share.peloton.PelotonReauthenticate"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="com.kopin.solos.share.peloton.TermsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.kopin.solos.common.BaseActivity"/>
+        <activity android:name="com.kopin.solos.common.BaseListActivity"/>
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true"/>
+        <uses-library
+            android:name="com.google.android.wearable"
+            android:required="false"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver"
+            android:permission="android.permission.INSTALL_PACKAGES"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="com.kopin.solos"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdInternalReceiver"
+            android:exported="false"/>
+        <service
+            android:name="com.google.firebase.iid.FirebaseInstanceIdService"
+            android:exported="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:exported="false"
+            android:authorities="com.kopin.solos.firebaseinitprovider"
+            android:initOrder="100"/>
+        <meta-data
+            android:name="android.support.VERSION"
+            android:value="26.1.0"/>
+        <meta-data
+            android:name="android.arch.lifecycle.VERSION"
+            android:value="27.0.0-SNAPSHOT"/>
+    </application>
+</manifest>

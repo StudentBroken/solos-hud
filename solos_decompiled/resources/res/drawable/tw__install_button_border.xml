@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <corners android:radius="@dimen/tw__card_radius_small"/>
+    <stroke
+        android:width="1dp"
+        android:color="@color/tw__composer_blue_text"/>
+    <padding
+        android:left="@dimen/tw__card_spacing_large"
+        android:top="@dimen/tw__card_spacing_medium"
+        android:right="@dimen/tw__card_spacing_large"
+        android:bottom="@dimen/tw__card_spacing_medium"/>
+</shape>

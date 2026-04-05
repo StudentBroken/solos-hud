@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page
+    name="time"
+    version="2"
+    align="top">
+    <include source="_header"/>
+    <box
+        width="428"
+        height="100"
+        align="left"
+        marginTop="20"
+        paddingLeft="3">
+        <image
+            source="time_icon"
+            marginLeft="24"
+            width="90"
+            height="90"
+            color="default_font"/>
+        <textarea
+            width="314"
+            height="90"
+            size="74"
+            name="value"
+            content="00:00:00"
+            colour="@color/single_unit_text"
+            marginLeft="14"/>
+    </box>
+    <textarea
+        width="428"
+        height="26"
+        marginBottom="19"
+        name="bottom_text"
+        size="20"
+        text_align="center_horizontal"
+        content="@string/elapsed_time"
+        bold="false"/>
+    <include source="_ghost_bar"/>
+</page>

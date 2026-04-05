@@ -1,0 +1,1183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="setting_screens_entries">
+        <item>Heart rate</item>
+        <item>Heart rate graph</item>
+        <item>Heart rate zone</item>
+        <item>Distance</item>
+        <item>Target Distance</item>
+        <item>Speed</item>
+        <item>Speed graph</item>
+        <item>Average speed graph</item>
+        <item>Pace</item>
+        <item>Pace Graph</item>
+        <item>Target Time</item>
+        <item>Cadence</item>
+        <item>Cadence graph</item>
+        <item>Oxygenation</item>
+        <item>Oxygenation graph</item>
+        <item>Power</item>
+        <item>Power bar</item>
+        <item>Power graph</item>
+        <item>Lap graph</item>
+        <item>Elevation</item>
+        <item>Elevation Change</item>
+        <item>Elevation graph</item>
+        <item>Calories</item>
+        <item>Overall climb</item>
+        <item>Normalised power</item>
+        <item>Average target speed</item>
+        <item>Average target heartrate</item>
+        <item>Average target power</item>
+        <item>Average target cadence</item>
+        <item>Average target pace</item>
+        <item>4-Metric Overview</item>
+    </array>
+    <array name="common_cancel">
+        <item>No</item>
+        <item>Cancel</item>
+    </array>
+    <array name="common_cancel_or_retry">
+        <item>No</item>
+        <item>Cancel</item>
+        <item>Retry</item>
+        <item>Try again</item>
+    </array>
+    <array name="common_confirm">
+        <item>Yes</item>
+        <item>Okay</item>
+    </array>
+    <array name="common_confirm_or_cancel">
+        <item>Yes</item>
+        <item>No</item>
+        <item>Okay</item>
+        <item>Cancel</item>
+    </array>
+    <array name="common_confirm_or_retry">
+        <item>Yes</item>
+        <item>No</item>
+        <item>Okay</item>
+        <item>Cancel</item>
+        <item>Retry</item>
+        <item>Try again</item>
+    </array>
+    <array name="common_retry">
+        <item>Retry</item>
+        <item>Try again</item>
+    </array>
+    <array name="dialler_busy_text">
+        <item>I\'m busy</item>
+        <item>Call later</item>
+        <item>I\'ll call you later</item>
+        <item>I\'m in a meeting</item>
+    </array>
+    <array name="dialler_grammar">
+        <item>make [a] call</item>
+        <item>dial [a] number</item>
+        <item>new phone call</item>
+        <item>dial &lt;ToWho&gt;</item>
+        <item>call &lt;ToWho&gt;</item>
+        <item>phone &lt;ToWho&gt;</item>
+    </array>
+    <array name="dialler_keywords">
+        <item>call</item>
+        <item>dial</item>
+        <item>phone</item>
+    </array>
+    <array name="dialler_prefix">
+        <item>make [a] call</item>
+        <item>dial [a] number</item>
+        <item>new phone call</item>
+    </array>
+    <array name="dialler_take_call">
+        <item>Answer</item>
+        <item>yes</item>
+        <item>take call</item>
+        <item>hello</item>
+    </array>
+    <array name="inbox_grammar">
+        <item>hear message</item>
+        <item>read message</item>
+        <item>read</item>
+        <item>yes</item>
+        <item>play message</item>
+        <item>play</item>
+        <item>reply</item>
+        <item>send reply</item>
+        <item>dismiss</item>
+        <item>close</item>
+        <item>no</item>
+        <item>cancel</item>
+        <item>next message</item>
+        <item>next</item>
+    </array>
+    <array name="inbox_next">
+        <item>next message</item>
+        <item>next</item>
+        <item>skip</item>
+    </array>
+    <array name="inbox_read">
+        <item>hear message</item>
+        <item>read message</item>
+        <item>read</item>
+        <item>yes</item>
+        <item>play message</item>
+        <item>play</item>
+    </array>
+    <array name="inbox_reply">
+        <item>yes</item>
+        <item>reply</item>
+        <item>send reply</item>
+    </array>
+    <array name="incall_grammar">
+        <item>hang up</item>
+        <item>end call</item>
+        <item>terminate call</item>
+        <item>goodbye</item>
+    </array>
+    <array name="messages_canned">
+        <item>I\'m running late</item>
+        <item>I\'ll be late</item>
+        <item>I\'ll call later</item>
+        <item>I\'ll email</item>
+    </array>
+    <array name="messages_grammar">
+        <item>send [a] message</item>
+        <item>send [a] text</item>
+        <item>send [an] s m s</item>
+        <item>new message</item>
+        <item>send [a] message to &lt;ToWho&gt;</item>
+        <item>send [a] text to &lt;ToWho&gt;</item>
+        <item>send [an] s m s to &lt;ToWho&gt;</item>
+        <item>tell &lt;ToWho&gt; I\'m running late</item>
+        <item>tell &lt;ToWho&gt; I\'ll be late</item>
+        <item>tell &lt;ToWho&gt; I\'ll call later</item>
+        <item>tell &lt;ToWho&gt; I\'ll email</item>
+    </array>
+    <array name="messages_keywords">
+        <item>text</item>
+        <item>message</item>
+        <item>s m s</item>
+    </array>
+    <array name="messages_prefixes">
+        <item>send message to</item>
+        <item>send text to</item>
+        <item>send s m s to</item>
+        <item>send [a] message to</item>
+        <item>send [a] text to</item>
+        <item>send [an] s m s to</item>
+        <item>tell</item>
+    </array>
+    <array name="messages_start">
+        <item>send message</item>
+        <item>send text</item>
+        <item>send s m s</item>
+        <item>send a message</item>
+        <item>send a text</item>
+        <item>send an s m s</item>
+        <item>new message</item>
+    </array>
+    <array name="ringing_grammar">
+        <item>hang up</item>
+        <item>reject</item>
+        <item>reject call</item>
+        <item>Answer</item>
+        <item>yes</item>
+        <item>take call</item>
+        <item>hello</item>
+        <item>I\'m busy</item>
+        <item>Call later</item>
+        <item>I\'ll call you later</item>
+        <item>I\'m in a meeting</item>
+    </array>
+    <array name="tts_common_hint">
+        <item>Sorry, I didn\'t hear that</item>
+        <item>I couldn\'t understand</item>
+        <item>Can you repeat that?</item>
+    </array>
+    <array name="tts_common_once">
+        <item>I\'m sorry, I didn\'t catch that.</item>
+    </array>
+    <array name="tts_common_terse">
+        <item>I didn\'t hear that</item>
+        <item>Can you repeat that?</item>
+        <item>Sorry, I didn\'t hear that</item>
+        <item>I couldn\'t understand</item>
+        <item>Sorry, I didn\'t understand</item>
+    </array>
+    <array name="tts_common_verbose">
+        <item>I\'m sorry, I didn\'t catch that</item>
+        <item>I\'m sorry, I didn\'t understand that</item>
+    </array>
+    <array name="tts_dialler_callwho_hint">
+        <item>Call who?</item>
+        <item>Phone who??</item>
+    </array>
+    <array name="tts_dialler_callwho_once">
+        <item>Who would you like to call?</item>
+    </array>
+    <array name="tts_dialler_callwho_silent">
+        <item>Call who?</item>
+    </array>
+    <array name="tts_dialler_callwho_terse">
+        <item>Who?</item>
+    </array>
+    <array name="tts_dialler_callwho_verbose">
+        <item>Who would you like to call?</item>
+        <item>Who you gonna call?</item>
+        <item>Who would you like to phone?</item>
+    </array>
+    <array name="tts_dialler_confirm_hint">
+        <item>Should I call $NAME?</item>
+        <item>Should I phone $NAME?</item>
+        <item>Dial $NAME?</item>
+    </array>
+    <array name="tts_dialler_confirm_once">
+        <item>Should I dial $NAME?</item>
+    </array>
+    <array name="tts_dialler_confirm_terse">
+        <item>Call?</item>
+        <item>Call now?</item>
+    </array>
+    <array name="tts_dialler_confirm_verbose">
+        <item>Should I call $NAME?</item>
+        <item>Dial $NAME?</item>
+    </array>
+    <array name="tts_dialler_incoming_hint">
+        <item>It\'s $NAME calling, answer?</item>
+        <item>Call from $CALLER, answer?</item>
+        <item>Take a call from $CALLER?</item>
+    </array>
+    <array name="tts_dialler_incoming_once">
+        <item>$NAME calling, answer?</item>
+    </array>
+    <array name="tts_dialler_incoming_terse">
+        <item>Accept call?</item>
+        <item>Answer call?</item>
+    </array>
+    <array name="tts_dialler_incoming_verbose">
+        <item>Call from $CALLER, answer?</item>
+        <item>Take a call from $CALLER?</item>
+    </array>
+    <array name="tts_messages_confirm_hint">
+        <item>Should I send the message?</item>
+        <item>Send the message now?</item>
+        <item>Send to $NAME?</item>
+    </array>
+    <array name="tts_messages_confirm_msg_hint">
+        <item>I heard $MESSAGE, correct?</item>
+    </array>
+    <array name="tts_messages_confirm_msg_once">
+        <item>Was that $MESSAGE</item>
+    </array>
+    <array name="tts_messages_confirm_msg_terse">
+        <item>Send $MESSAGE</item>
+    </array>
+    <array name="tts_messages_confirm_msg_verbose">
+        <item>I heard $MESSAGE, correct?</item>
+        <item>Was that $MESSAGE</item>
+        <item>Send the message $MESSAGE</item>
+        <item>Is $MESSAGE correct?</item>
+    </array>
+    <array name="tts_messages_confirm_once">
+        <item>Send the message?</item>
+    </array>
+    <array name="tts_messages_confirm_terse">
+        <item>Send?</item>
+        <item>Send now?</item>
+    </array>
+    <array name="tts_messages_confirm_verbose">
+        <item>Should I send message to $NAME?</item>
+        <item>Send the message to $NAME?</item>
+        <item>Would you like to send the message to $NAME now?</item>
+        <item>Okay to send text to $NAME?</item>
+        <item>Tell $NAME $MESSAGE?</item>
+    </array>
+    <array name="tts_messages_count_verbose">
+        <item>You have $COUNT new messages, hear them now?</item>
+    </array>
+    <array name="tts_messages_getmessage_hint">
+        <item>Which message do you want to send?</item>
+    </array>
+    <array name="tts_messages_getmessage_once">
+        <item>Which message do you want to send?</item>
+    </array>
+    <array name="tts_messages_getmessage_terse">
+        <item>Say the message</item>
+        <item>Which message?</item>
+    </array>
+    <array name="tts_messages_getmessage_verbose">
+        <item>Which quick message do you want to send to $NAME?</item>
+        <item>What is the quick message to send to $NAME?</item>
+        <item>Say the quick message to send to $NAME</item>
+        <item>What is the quick message for $NAME</item>
+    </array>
+    <array name="tts_messages_inbox_empty_verbose">
+        <item>No more messages to hear.</item>
+    </array>
+    <array name="tts_messages_inbox_hint">
+        <item>Message from $NAME, Listen now?</item>
+        <item>New message from $NAME</item>
+        <item>Text from $NAME, Play message?</item>
+    </array>
+    <array name="tts_messages_inbox_once">
+        <item>Message from $NAME</item>
+    </array>
+    <array name="tts_messages_inbox_terse">
+        <item>Text from $NAME</item>
+        <item>New message</item>
+    </array>
+    <array name="tts_messages_inbox_verbose">
+        <item>Message from $NAME, listen now?</item>
+        <item>New message from $NAME, play now?</item>
+        <item>Text from $NAME, play message?</item>
+    </array>
+    <array name="tts_messages_read_hint">
+        <item>$MESSAGE. Send a reply?</item>
+    </array>
+    <array name="tts_messages_read_once">
+        <item>$MESSAGE. Send a reply?</item>
+    </array>
+    <array name="tts_messages_read_terse">
+        <item>$MESSAGE</item>
+    </array>
+    <array name="tts_messages_read_verbose">
+        <item>$MESSAGE. Would you like to reply?</item>
+        <item>$MESSAGE. Reply to $NAME</item>
+    </array>
+    <array name="tts_messages_saymessage_hint">
+        <item>What message do you want to send?</item>
+    </array>
+    <array name="tts_messages_saymessage_once">
+        <item>What is the message?</item>
+    </array>
+    <array name="tts_messages_saymessage_terse">
+        <item>Say the message</item>
+        <item>What message?</item>
+    </array>
+    <array name="tts_messages_saymessage_verbose">
+        <item>What message do you want to send to $NAME?</item>
+        <item>What is the message to send to $NAME?</item>
+        <item>Say your message for $NAME</item>
+        <item>What is the message for $NAME</item>
+    </array>
+    <array name="tts_messages_sendtowho_hint">
+        <item>Send to who?</item>
+        <item>Message for who?</item>
+    </array>
+    <array name="tts_messages_sendtowho_once">
+        <item>Send a message to who?</item>
+    </array>
+    <array name="tts_messages_sendtowho_silent">
+        <item>To who?</item>
+    </array>
+    <array name="tts_messages_sendtowho_terse">
+        <item>To who?</item>
+        <item>Who to?</item>
+    </array>
+    <array name="tts_messages_sendtowho_verbose">
+        <item>Send a message to who?</item>
+        <item>Who would you like to send a message to?</item>
+        <item>Who is the message for?</item>
+    </array>
+    <array name="tts_messages_sent_verbose">
+        <item>Message sent</item>
+        <item>Sending now</item>
+    </array>
+    <array name="tts_nonumber_verbose">
+        <item>I\'m sorry, I didn\'t catch that name</item>
+        <item>Hmmm, I can\'t find a number for $NAME</item>
+    </array>
+    <array name="tts_ok_hint">
+        <item>ok</item>
+        <item>confirmed</item>
+    </array>
+    <array name="tts_ok_verbose">
+        <item>ok $USER</item>
+        <item>confirmed</item>
+    </array>
+    <array name="HrZonePrecentages">
+        <item>65</item>
+        <item>75</item>
+        <item>85</item>
+        <item>90</item>
+        <item>95</item>
+    </array>
+    <array name="android_wear_capabilities">
+        <item>phone_app_available</item>
+    </array>
+    <array name="bike_types">
+        <item>@string/bike_type_default</item>
+        <item>@string/bike_type_hybrid</item>
+        <item>@string/bike_type_mountain</item>
+        <item>@string/bike_type_road</item>
+    </array>
+    <array name="common_abbrevs_full">
+        <item>mister</item>
+        <item>missus</item>
+        <item>miss</item>
+        <item>mizz</item>
+        <item>doctor</item>
+        <item>professor</item>
+        <item>reverand</item>
+        <item>junior</item>
+        <item>junior</item>
+        <item>senior</item>
+        <item>senior</item>
+        <item>the third</item>
+        <item>the fourth</item>
+    </array>
+    <array name="common_abbrevs_key">
+        <item>mr</item>
+        <item>mrs</item>
+        <item>ms</item>
+        <item>mz</item>
+        <item>dr</item>
+        <item>prof</item>
+        <item>rev</item>
+        <item>jnr</item>
+        <item>jr</item>
+        <item>snr</item>
+        <item>sr</item>
+        <item>iii</item>
+        <item>iv</item>
+    </array>
+    <array name="dual_pref_single_metrics_values">
+        <item>pref_dual_cadence</item>
+        <item>pref_dual_oxygen</item>
+        <item>pref_dual_elevation</item>
+        <item>pref_dual_heart_rate</item>
+        <item>pref_dual_power</item>
+        <item>pref_dual_speed</item>
+        <item>pref_dual_pace</item>
+        <item>pref_dual_step</item>
+        <item>pref_dual_kick</item>
+    </array>
+    <array name="env_header_types">
+        <item>Content-Type</item>
+        <item>Accept</item>
+        <item>devicetype</item>
+        <item>deviceapi</item>
+        <item>iwauth</item>
+    </array>
+    <array name="env_header_values">
+        <item>application/json</item>
+        <item>application/json</item>
+        <item>Android</item>
+        <item>[API]</item>
+        <item>[TOKEN]</item>
+    </array>
+    <array name="gr_setting_screens_entries">
+        <item>Overview</item>
+        <item>Distance</item>
+        <item>Heart rate</item>
+        <item>Average heart rate</item>
+        <item>Cadence</item>
+        <item>Average cadence</item>
+        <item>Power</item>
+        <item>Average Power</item>
+        <item>Speed</item>
+        <item>Average Speed</item>
+        <item>Pace</item>
+        <item>Average Pace</item>
+        <item>Cadence</item>
+        <item>Average cadence</item>
+        <item>Oxygenation</item>
+        <item>Stride</item>
+        <item>Power</item>
+        <item>Average Power</item>
+    </array>
+    <array name="gr_setting_screens_values">
+        <item>metric_overview</item>
+        <item>distance</item>
+        <item>heartrate</item>
+        <item>ghost_average_heartrate</item>
+        <item>cadence</item>
+        <item>ghost_average_cadence</item>
+        <item>power</item>
+        <item>ghost_average_power</item>
+        <item>speed</item>
+        <item>ghost_average_speed</item>
+        <item>pace</item>
+        <item>ghost_average_pace</item>
+        <item>step</item>
+        <item>ghost_average_step</item>
+        <item>oxygenation</item>
+        <item>stride</item>
+        <item>kick</item>
+        <item>ghost_average_kick</item>
+    </array>
+    <array name="headset_sleep_entries">
+        <item>30 seconds</item>
+        <item>1 minute</item>
+        <item>2 minutes</item>
+        <item>5 minutes</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>Never</item>
+    </array>
+    <array name="headset_sleep_values">
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>300</item>
+        <item>900</item>
+        <item>1800</item>
+        <item>-1</item>
+    </array>
+    <array name="home_grammar">
+        <item>main menu</item>
+        <item>switch off</item>
+    </array>
+    <array name="inride_grammar">
+        <item>show [me|my] &lt;Metric&gt;</item>
+        <item>next [page|screen]</item>
+        <item>previous [page|screen]</item>
+        <item>back</item>
+        <item>forward</item>
+        <item>update [all|&lt;Metric&gt;]</item>
+        <item>target &lt;Target&gt;</item>
+        <item>pause &lt;SportType&gt;</item>
+        <item>hold &lt;SportType&gt;</item>
+        <item>end &lt;SportType&gt;</item>
+        <item>stop &lt;SportType&gt;</item>
+        <item>finish &lt;SportType&gt;</item>
+        <item>main menu</item>
+        <item>switch off</item>
+    </array>
+    <array name="inride_paused_grammar">
+        <item>resume &lt;SportType&gt;</item>
+        <item>end &lt;SportType&gt;</item>
+        <item>stop &lt;SportType&gt;</item>
+        <item>finish &lt;SportType&gt;</item>
+        <item>main menu</item>
+        <item>switch off</item>
+    </array>
+    <array name="lap_mode_entries">
+        <item>Manual</item>
+        <item>Time</item>
+        <item>Distance</item>
+    </array>
+    <array name="lap_mode_values">
+        <item>m</item>
+        <item>t</item>
+        <item>d</item>
+    </array>
+    <array name="main_activity_fragments">
+        <item>ACTIVITIES</item>
+        <item>PROFILE</item>
+        <item>SETTINGS</item>
+    </array>
+    <array name="main_activity_fragments_watch">
+        <item>ACTIVITIES</item>
+        <item>PROFILE</item>
+    </array>
+    <array name="metric_keys_switch_on_defaults">
+        <item>switch_metric_overview</item>
+        <item>switch_average_pace</item>
+        <item>switch_average_speed</item>
+        <item>switch_cadence</item>
+        <item>switch_calories</item>
+        <item>switch_distance</item>
+        <item>switch_elevation_change</item>
+        <item>switch_heart_rate_zones</item>
+        <item>switch_overall_climb</item>
+        <item>switch_power</item>
+        <item>switch_power_bar</item>
+        <item>switch_normalised_power</item>
+        <item>switch_heart_rate</item>
+        <item>switch_speed</item>
+        <item>switch_pace</item>
+        <item>switch_step</item>
+        <item>switch_stride</item>
+        <item>switch_kick</item>
+        <item>multi_display_screen_1</item>
+        <item>multi_display_screen_2</item>
+    </array>
+    <array name="more_commands">
+        <item>main menu</item>
+        <item>home</item>
+        <item>reset</item>
+    </array>
+    <array name="multi_display_entries">
+        <item>None</item>
+        <item>Time Elapsed</item>
+        <item>Oxygenation</item>
+        <item>Heart rate</item>
+        <item>Distance</item>
+        <item>Target Distance</item>
+        <item>Target Time</item>
+        <item>Speed</item>
+        <item>Average Speed</item>
+        <item>Pace</item>
+        <item>Average Pace</item>
+        <item>Cadence</item>
+        <item>Cadence</item>
+        <item>Power</item>
+        <item>Elevation</item>
+        <item>Overall Climb</item>
+        <item>Calories</item>
+        <item>Stride</item>
+        <item>Power</item>
+        <item>Target Average Speed</item>
+        <item>Target Average Pace</item>
+        <item>Target Average Heart Rate</item>
+        <item>Target Average Power</item>
+        <item>Target Average Cadence</item>
+        <item>Target Average Cadence</item>
+        <item>Target Average Power</item>
+    </array>
+    <array name="multi_display_values">
+        <item />
+        <item>time</item>
+        <item>oxygenation</item>
+        <item>heartrate</item>
+        <item>distance</item>
+        <item>target_distance</item>
+        <item>countdown_time</item>
+        <item>speed</item>
+        <item>average_speed</item>
+        <item>pace</item>
+        <item>average_pace</item>
+        <item>cadence</item>
+        <item>step</item>
+        <item>power</item>
+        <item>elevation</item>
+        <item>overall_climb</item>
+        <item>calories</item>
+        <item>stride</item>
+        <item>kick</item>
+        <item>speed_average_target</item>
+        <item>pace_average_target</item>
+        <item>heartrate_average_target</item>
+        <item>power_average_target</item>
+        <item>cadence_average_target</item>
+        <item>step_average_target</item>
+        <item>kick_average_target</item>
+    </array>
+    <array name="pref_unit_system_entries">
+        <item>@string/unit_system_imperial_entry</item>
+        <item>@string/unit_system_metric_entry</item>
+    </array>
+    <array name="pref_unit_system_values">
+        <item>imperial</item>
+        <item>metric</item>
+    </array>
+    <array name="progress_spinner_sequence">
+        <item>#fff4b400</item>
+        <item>#ffdb4437</item>
+        <item>#ff4285f4</item>
+        <item>#ff0f9d58</item>
+    </array>
+    <array name="ride_back_prefixes">
+        <item>previous</item>
+        <item>back</item>
+    </array>
+    <array name="ride_grammar">
+        <item>start [a] &lt;SportType&gt;</item>
+        <item>show [my] stats</item>
+        <item>new route</item>
+        <item>go</item>
+        <item>start</item>
+        <item>ready</item>
+        <item>on your marks</item>
+        <item>main menu</item>
+        <item>switch off</item>
+    </array>
+    <array name="ride_keywords">
+        <item>ride</item>
+        <item>route</item>
+        <item>stats</item>
+    </array>
+    <array name="ride_next_prefixes">
+        <item>next</item>
+        <item>forward</item>
+    </array>
+    <array name="ride_pause_prefixes">
+        <item>pause</item>
+        <item>hold</item>
+        <item>wait</item>
+    </array>
+    <array name="ride_ready_grammar">
+        <item>ready</item>
+        <item>on your marks</item>
+        <item>main menu</item>
+        <item>switch off</item>
+    </array>
+    <array name="ride_resume_prefixes">
+        <item>resume</item>
+        <item>go</item>
+        <item>ready</item>
+    </array>
+    <array name="ride_show_prefixes">
+        <item>show me</item>
+        <item>show my</item>
+        <item>show</item>
+    </array>
+    <array name="ride_start_grammar">
+        <item>start ride</item>
+        <item>start run</item>
+        <item>start a ride</item>
+        <item>start a run</item>
+        <item>go</item>
+        <item>start</item>
+        <item>main menu</item>
+        <item>switch off</item>
+    </array>
+    <array name="ride_stop_prefixes">
+        <item>stop</item>
+        <item>end</item>
+        <item>finish</item>
+    </array>
+    <array name="rolling_avg_keys">
+        <item>rolling_avg_speed</item>
+        <item>rolling_avg_pace</item>
+        <item>rolling_avg_cadence</item>
+        <item>rolling_avg_step</item>
+        <item>rolling_avg_power</item>
+        <item>rolling_avg_heartrate</item>
+        <item>rolling_avg_stride</item>
+        <item>rolling_avg_kick</item>
+    </array>
+    <array name="rolling_avg_settings">
+        <item>Instantaneous</item>
+        <item>3 Second Average</item>
+        <item>5 Second Average</item>
+    </array>
+    <array name="rolling_avg_values">
+        <item>0</item>
+        <item>3</item>
+        <item>5</item>
+    </array>
+    <array name="setting_mode_entries">
+        <item>Automatic start</item>
+        <item>@string/setting_mode_summary</item>
+    </array>
+    <array name="setting_mode_values">
+        <item>a</item>
+        <item>m</item>
+    </array>
+    <array name="setting_screens_values">
+        <item>heartrate</item>
+        <item>heartrate_graph</item>
+        <item>heart_rate_zones</item>
+        <item>distance</item>
+        <item>target_distance</item>
+        <item>speed</item>
+        <item>speed_graph</item>
+        <item>average_speed_graph</item>
+        <item>countdown_time</item>
+        <item>cadence</item>
+        <item>cadence_graph</item>
+        <item>oxygenation</item>
+        <item>oxygenation_graph</item>
+        <item>power</item>
+        <item>power_bar</item>
+        <item>power_graph</item>
+        <item>lap_graph</item>
+        <item>elevation</item>
+        <item>elevation_change</item>
+        <item>elevation_graph</item>
+        <item>calories</item>
+        <item>overall_climb</item>
+        <item>power_normalised</item>
+        <item>speed_average_target</item>
+        <item>heartrate_average_target</item>
+        <item>power_average_target</item>
+        <item>cadence_average_target</item>
+        <item>pace_average_target</item>
+        <item>metric_overview</item>
+    </array>
+    <array name="setting_timer_entries">
+        <item>Manual</item>
+        <item>10 seconds</item>
+        <item>20 seconds</item>
+        <item>30 seconds</item>
+        <item>1 minute</item>
+    </array>
+    <array name="setting_timer_values">
+        <item>m</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>60</item>
+    </array>
+    <array name="setting_tts_entries">
+        <item>On each screen</item>
+        <item>15 seconds</item>
+        <item>30 seconds</item>
+        <item>1 minute</item>
+        <item>2 minutes</item>
+        <item>5 minutes</item>
+        <item>10 minutes</item>
+    </array>
+    <array name="setting_tts_values">
+        <item>0</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>300</item>
+        <item>600</item>
+    </array>
+    <array name="setting_vocon_entries">
+        <item>Off</item>
+        <item>Always On</item>
+    </array>
+    <array name="setting_vocon_values">
+        <item>0</item>
+        <item>2</item>
+    </array>
+    <array name="sleep_commands">
+        <item>off</item>
+        <item>sleep</item>
+        <item>switch off</item>
+    </array>
+    <array name="sport_types">
+        <item>Cycle Speedway</item>
+        <item>Cyclo-cross</item>
+        <item>Mountain Practice</item>
+        <item>Mountain Race</item>
+        <item>@string/sport_road_practice</item>
+        <item>Road Race</item>
+        <item>Track Practice</item>
+        <item>Track Race</item>
+    </array>
+    <array name="sport_types_icons">
+        <item>@drawable/cycle_speedway</item>
+        <item>@drawable/cyclo_cross</item>
+        <item>@drawable/mountain_practice</item>
+        <item>@drawable/mountain_race</item>
+        <item>@drawable/road_practice</item>
+        <item>@drawable/road_race</item>
+        <item>@drawable/track_practice</item>
+        <item>@drawable/track_race</item>
+    </array>
+    <array name="sport_types_icons_run">
+        <item>@drawable/cross_country</item>
+        <item>@drawable/mountain_run</item>
+        <item>@drawable/road_practice_run</item>
+        <item>@drawable/road_race</item>
+        <item>@drawable/time_trial</item>
+        <item>@drawable/track_run</item>
+        <item>@drawable/treadmill</item>
+    </array>
+    <array name="sport_types_run">
+        <item>@string/activity_type_cross_country</item>
+        <item>@string/activity_type_mountain</item>
+        <item>@string/activity_type_road_practice</item>
+        <item>@string/activity_type_road_race</item>
+        <item>@string/activity_type_time_trial</item>
+        <item>@string/activity_type_track</item>
+        <item>@string/activity_type_treadmill</item>
+    </array>
+    <array name="switch_pref_compound_metrics_values">
+        <item>switch_cadence</item>
+        <item>switch_oxygen</item>
+        <item>switch_elevation</item>
+        <item>switch_heart_rate</item>
+        <item>switch_power</item>
+        <item>switch_speed</item>
+        <item>switch_pace</item>
+        <item>switch_step</item>
+        <item>switch_kick</item>
+    </array>
+    <array name="switch_pref_single_metrics_all">
+        <item>switch_metric_overview</item>
+        <item>switch_average_pace</item>
+        <item>switch_average_speed</item>
+        <item>switch_cadence</item>
+        <item>pref_dual_cadence</item>
+        <item>switch_calories</item>
+        <item>switch_distance</item>
+        <item>switch_elevation</item>
+        <item>pref_dual_elevation</item>
+        <item>switch_elevation_change</item>
+        <item>switch_heart_rate</item>
+        <item>pref_dual_heart_rate</item>
+        <item>switch_heart_rate_zones</item>
+        <item>switch_intensity_factor</item>
+        <item>switch_overall_climb</item>
+        <item>switch_oxygen</item>
+        <item>pref_dual_oxygen</item>
+        <item>switch_power</item>
+        <item>pref_dual_power</item>
+        <item>power_average_target</item>
+        <item>switch_kick</item>
+        <item>pref_dual_kick</item>
+        <item>kick_average_target</item>
+        <item>switch_power_bar</item>
+        <item>switch_kick_bar</item>
+        <item>switch_normalised_power</item>
+        <item>switch_speed</item>
+        <item>pref_dual_speed</item>
+        <item>switch_pace</item>
+        <item>pref_dual_pace</item>
+        <item>cadence_average_target</item>
+        <item>heartrate_average_target</item>
+        <item>speed_average_target</item>
+        <item>pace_average_target</item>
+        <item>page_target_distance</item>
+        <item>countdown_time</item>
+        <item>switch_stride</item>
+        <item>switch_step</item>
+        <item>pref_dual_step</item>
+        <item>step_average_target</item>
+    </array>
+    <array name="switch_pref_single_metrics_all_dependencies">
+        <item>switch_average_pace</item>
+        <item>switch_average_speed</item>
+        <item>switch_cadence</item>
+        <item>pref_dual_cadence</item>
+        <item>switch_calories</item>
+        <item>switch_distance</item>
+        <item>switch_elevation</item>
+        <item>pref_dual_elevation</item>
+        <item>switch_elevation_change</item>
+        <item>switch_heart_rate</item>
+        <item>pref_dual_heart_rate</item>
+        <item>switch_heart_rate_zones</item>
+        <item>switch_intensity_factor</item>
+        <item>switch_overall_climb</item>
+        <item>switch_oxygen</item>
+        <item>pref_dual_oxygen</item>
+        <item>switch_normalised_power</item>
+        <item>switch_power</item>
+        <item>pref_dual_power</item>
+        <item>switch_power_bar</item>
+        <item>switch_speed</item>
+        <item>pref_dual_speed</item>
+        <item>switch_pace</item>
+        <item>pref_dual_pace</item>
+        <item>cadence_average_target</item>
+        <item>heartrate_average_target</item>
+        <item>power_average_target</item>
+        <item>speed_average_target</item>
+        <item>pace_average_target</item>
+        <item>@string/pref_key_target_average_cadence</item>
+        <item>@string/pref_key_target_average_heartrate</item>
+        <item>@string/pref_key_target_average_power</item>
+        <item>@string/pref_key_target_average_speed</item>
+        <item>@string/pref_key_target_average_pace</item>
+        <item>page_target_distance</item>
+        <item>countdown_time</item>
+        <item>switch_stride</item>
+        <item>switch_step</item>
+        <item>pref_dual_step</item>
+        <item>step_average_target</item>
+        <item>@string/pref_key_target_average_step</item>
+        <item>switch_kick</item>
+        <item>pref_dual_kick</item>
+        <item>switch_kick_bar</item>
+        <item>@string/pref_key_target_average_kick</item>
+    </array>
+    <array name="switch_pref_single_metrics_values">
+        <item>switch_average_pace</item>
+        <item>switch_average_speed</item>
+        <item>switch_oxygen</item>
+        <item>switch_calories</item>
+        <item>switch_distance</item>
+        <item>switch_elevation_change</item>
+        <item>switch_heart_rate_zones</item>
+        <item>switch_normalised_power</item>
+        <item>switch_overall_climb</item>
+        <item>switch_power_bar</item>
+        <item>switch_stride</item>
+        <item>switch_kick_bar</item>
+    </array>
+    <array name="target_single_metrics_values">
+        <item>cadence_average_target</item>
+        <item>heartrate_average_target</item>
+        <item>power_average_target</item>
+        <item>speed_average_target</item>
+        <item>pace_average_target</item>
+        <item>step_average_target</item>
+        <item>page_target_distance</item>
+        <item>kick_average_target</item>
+        <item>countdown_time</item>
+    </array>
+    <array name="tts_clarify2_hint">
+    </array>
+    <array name="tts_clarify2_once">
+    </array>
+    <array name="tts_clarify2_silent">
+        <item />
+    </array>
+    <array name="tts_clarify2_terse">
+    </array>
+    <array name="tts_clarify2_verbose">
+        <item>Was that $NAME1 or $NAME2</item>
+        <item>Did you mean $NAME1 or $NAME2</item>
+    </array>
+    <array name="tts_clarify3_hint">
+    </array>
+    <array name="tts_clarify3_once">
+    </array>
+    <array name="tts_clarify3_silent">
+        <item />
+    </array>
+    <array name="tts_clarify3_terse">
+    </array>
+    <array name="tts_clarify3_verbose">
+        <item>Was that $NAME1, $NAME2 or $NAME3</item>
+        <item>Did you mean $NAME1, $NAME2 or $NAME3</item>
+    </array>
+    <array name="tts_common_silent">
+        <item />
+    </array>
+    <array name="tts_confirm_end_verbose">
+        <item>End your ride now?</item>
+        <item>Finish your ride?</item>
+        <item>Are you sure?</item>
+    </array>
+    <array name="tts_confirm_end_verbose_run">
+        <item>End your run now?</item>
+        <item>Finish your run?</item>
+        <item>Are you sure?</item>
+    </array>
+    <array name="tts_confirm_save_verbose">
+        <item>Save your ride?</item>
+        <item>Keep this ride?</item>
+        <item>Save ride?</item>
+    </array>
+    <array name="tts_confirm_save_verbose_run">
+        <item>Save your run?</item>
+        <item>Keep this run?</item>
+        <item>Save run?</item>
+    </array>
+    <array name="tts_dialler_callwho">
+        <item>@null</item>
+        <item>@array/tts_dialler_callwho_silent</item>
+        <item>@array/tts_dialler_callwho_once</item>
+        <item>@array/tts_dialler_callwho_terse</item>
+        <item>@array/tts_dialler_callwho_hint</item>
+        <item>@array/tts_dialler_callwho_verbose</item>
+    </array>
+    <array name="tts_dialler_confirm_silent">
+        <item />
+    </array>
+    <array name="tts_dialler_incoming_silent">
+        <item />
+    </array>
+    <array name="tts_dialler_permission">
+        <item>Telephone permission is required to make a call</item>
+    </array>
+    <array name="tts_messages_confirm_msg_silent">
+        <item />
+    </array>
+    <array name="tts_messages_confirm_silent">
+        <item />
+    </array>
+    <array name="tts_messages_getmessage_silent">
+        <item />
+    </array>
+    <array name="tts_messages_inbox_silent">
+        <item />
+    </array>
+    <array name="tts_messages_inbox_verbose_full">
+        <item>Message from $NAME. $MESSAGE</item>
+        <item>$NAME says $MESSAGE</item>
+    </array>
+    <array name="tts_messages_read_silent">
+        <item />
+    </array>
+    <array name="tts_messages_saymessage_silent">
+        <item />
+    </array>
+    <array name="tts_messages_send_permission">
+        <item>SMS permission is required to send a message</item>
+    </array>
+    <array name="tts_no_more_numbers_hint">
+    </array>
+    <array name="tts_no_more_numbers_once">
+    </array>
+    <array name="tts_no_more_numbers_silent">
+        <item />
+    </array>
+    <array name="tts_no_more_numbers_terse">
+    </array>
+    <array name="tts_no_more_numbers_verbose">
+        <item>Sorry, I don\'t have any more numbers for $NAME1</item>
+    </array>
+    <array name="tts_no_name_matches_hint">
+    </array>
+    <array name="tts_no_name_matches_once">
+    </array>
+    <array name="tts_no_name_matches_silent">
+        <item />
+    </array>
+    <array name="tts_no_name_matches_terse">
+    </array>
+    <array name="tts_no_name_matches_verbose">
+        <item>I\'m sorry, I couldn\'t find a useable number for $NAME</item>
+    </array>
+    <array name="tts_nonumber_hint">
+        <item>I\'m sorry, I didn\'t catch that name</item>
+    </array>
+    <array name="tts_nonumber_once">
+    </array>
+    <array name="tts_nonumber_silent">
+        <item />
+    </array>
+    <array name="tts_nonumber_terse">
+    </array>
+    <array name="tts_pick_number_hint">
+    </array>
+    <array name="tts_pick_number_once">
+    </array>
+    <array name="tts_pick_number_silent">
+        <item />
+    </array>
+    <array name="tts_pick_number_terse">
+    </array>
+    <array name="tts_pick_number_verbose">
+        <item>Was that $NUMBER</item>
+        <item>Did you mean $NUMBER</item>
+    </array>
+    <array name="tts_too_many_names_hint">
+    </array>
+    <array name="tts_too_many_names_once">
+    </array>
+    <array name="tts_too_many_names_silent">
+        <item />
+    </array>
+    <array name="tts_too_many_names_terse">
+    </array>
+    <array name="tts_too_many_names_verbose">
+        <item>I\'m sorry, $NAME matches too many of your contacts. Please be more specific.</item>
+        <item>Sorry, I\'m not sure which $NAME you mean. Can you be more specific.</item>
+        <item>$NAME matches too many of your contacts, please say more of the name you want.</item>
+        <item>I\'m not sure which $NAME you mean, try using the full name.</item>
+        <item>Can you be more specific? $NAME matches too many of your contacts.</item>
+    </array>
+    <array name="tts_too_many_numbers_hint">
+    </array>
+    <array name="tts_too_many_numbers_once">
+    </array>
+    <array name="tts_too_many_numbers_silent">
+        <item />
+    </array>
+    <array name="tts_too_many_numbers_terse">
+    </array>
+    <array name="tts_too_many_numbers_verbose">
+        <item>I\'m sorry, but $NAME seems to have too many numbers</item>
+    </array>
+    <array name="tts_wake_hint">
+        <item>How can I help?</item>
+        <item>What do you want to do?</item>
+        <item>Yes?</item>
+    </array>
+    <array name="tts_wake_off">
+    </array>
+    <array name="tts_wake_once">
+    </array>
+    <array name="tts_wake_silent">
+    </array>
+    <array name="tts_wake_terse">
+    </array>
+    <array name="tts_wake_verbose">
+        <item>How can I help $USER?</item>
+        <item>$USER, what do you want to do?</item>
+        <item>Yes $USER?</item>
+    </array>
+</resources>

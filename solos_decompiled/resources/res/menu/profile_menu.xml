@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/menu_item_profile_edit"
+        android:id="@+id/action_edit_profile"
+        android:visible="true"
+        android:orderInCategory="101"
+        android:title="@string/menu_command_edit_profile"
+        android:showAsAction="always"/>
+    <item
+        android:icon="@drawable/menu_item_logout"
+        android:id="@+id/action_logout"
+        android:visible="true"
+        android:orderInCategory="102"
+        android:title="@string/menu_command_logout"
+        android:showAsAction="always"/>
+</menu>

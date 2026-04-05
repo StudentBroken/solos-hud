@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page
+    name="fwflash"
+    version="2"
+    align="top">
+    <include source="_header"/>
+    <box
+        width="428"
+        height="40"
+        marginTop="40"
+        align="left">
+        <image
+            source="fwflash_update"
+            width="51"
+            height="29"
+            color="default_font"
+            marginLeft="194"/>
+    </box>
+    <textarea
+        width="428"
+        height="80"
+        name="message"
+        size="24"
+        text_align="center_horizontal"
+        content="@string/fwflash_maintenance_mode"
+        bold="false"
+        marginTop="20"/>
+</page>

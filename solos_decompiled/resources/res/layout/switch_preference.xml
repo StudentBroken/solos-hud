@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Switch xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_vertical"
+    android:id="@+id/custom_switch_item"
+    android:focusable="false"
+    android:clickable="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:thumb="@drawable/switch_thumb"
+    android:textIsSelectable="false"
+    android:switchTextAppearance="@style/VCSwitchText"
+    android:track="@drawable/switch_track"/>

@@ -1,0 +1,29 @@
+package com.google.android.gms.wearable.internal;
+
+import android.os.RemoteException;
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.wearable.CapabilityApi;
+
+/* JADX INFO: loaded from: classes6.dex */
+final class zzs extends zzn<CapabilityApi.RemoveLocalCapabilityResult> {
+    private /* synthetic */ String zzbRX;
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    zzs(zzo zzoVar, GoogleApiClient googleApiClient, String str) {
+        super(googleApiClient);
+        this.zzbRX = str;
+    }
+
+    @Override // com.google.android.gms.internal.zzbck
+    protected final /* synthetic */ void zza(Api.zzb zzbVar) throws RemoteException {
+        ((zzdn) ((zzfw) zzbVar).zzrd()).zzb(new zzft(this), this.zzbRX);
+    }
+
+    @Override // com.google.android.gms.internal.zzbcq
+    protected final /* synthetic */ Result zzb(Status status) {
+        return new zzu(status);
+    }
+}

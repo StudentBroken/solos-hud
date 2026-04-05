@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="common_google_play_services_enable_button">Омогући</string>
+    <string name="common_google_play_services_enable_text">%1$s неће функционисати ако не омогућите Google Play услуге.</string>
+    <string name="common_google_play_services_enable_title">Омогућите Google Play услуге</string>
+    <string name="common_google_play_services_install_button">Инсталирај</string>
+    <string name="common_google_play_services_install_text">%1$s не може да се покрене без Google Play услуга, које нису инсталиране на уређају.</string>
+    <string name="common_google_play_services_install_title">Преузмите Google Play услуге</string>
+    <string name="common_google_play_services_notification_ticker">Грешка Google Play услуга</string>
+    <string name="common_google_play_services_unknown_issue">%1$s има проблема са Google Play услугама. Пробајте поново.</string>
+    <string name="common_google_play_services_unsupported_text">%1$s не може да се покрене без Google Play услуга, које уређај не подржава.</string>
+    <string name="common_google_play_services_update_button">Ажурирај</string>
+    <string name="common_google_play_services_update_text">%1$s не може да се покрене ако не ажурирате Google Play услуге.</string>
+    <string name="common_google_play_services_update_title">Ажурирајте Google Play услуге</string>
+    <string name="common_google_play_services_updating_text">%1$s не може да се покрене без Google Play услуга, које се тренутно ажурирају.</string>
+    <string name="common_google_play_services_wear_update_text">Потребна је нова верзија Google Play услуга. Ускоро ће се ажурирати.</string>
+    <string name="common_open_on_phone">Отвори на телефону</string>
+    <string name="common_signin_button_text">Пријави ме</string>
+    <string name="common_signin_button_text_long">Пријави ме на Google</string>
+    <string name="status_bar_notification_info_overflow">&gt;999</string>
+    <string name="tw__allow_btn_txt">Дозволи</string>
+    <string name="tw__like_tweet">Свиђа ти се твит</string>
+    <string name="tw__liked_tweet">Опозови свиђање</string>
+    <string name="tw__loading_tweet">Учитавање твита</string>
+    <string name="tw__login_btn_txt">Пријави се преко Твитера</string>
+    <string name="tw__not_now_btn_txt">Не сада</string>
+    <string name="tw__retweeted_by_format">Ретвитовано од стране %1$s</string>
+    <string name="tw__share_content_format">Провери твит @%1$s: https://twitter.com/%1$s/status/%2$s</string>
+    <string name="tw__share_email_title">Подели своју адресу е-поште</string>
+    <string name="tw__share_subject_format">Твит од %1$s (@%2$s)</string>
+    <string name="tw__share_tweet">Подели твит</string>
+    <string name="tw__tweet_content_description">%1$s. %2$s. %3$s.</string>
+</resources>

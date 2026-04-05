@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <View
+        android:background="@color/about_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <Button
+        android:id="@+id/btnTapHere"
+        android:background="@drawable/finish_ride_row_template"
+        android:paddingLeft="@dimen/setup_left_margin"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setup_profile_item_height"
+        android:text="@string/tap_here_select_activity"
+        style="@style/SetupTextMessage"/>
+    <View
+        android:background="@color/about_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <TextView
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/txtStepMsg"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/msg_setup_profile_activity"
+        android:drawableLeft="@drawable/ic_distance_icon"
+        style="@style/SetupTextMessage"/>
+</LinearLayout>

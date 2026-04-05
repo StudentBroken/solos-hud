@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page
+    name="heart_rate_zones"
+    align="top"
+    version="2">
+    <include source="_header"/>
+    <box
+        name="b1"
+        width="428"
+        height="120"
+        align="left"
+        paddingLeft="16"
+        paddingRight="16"
+        marginTop="20">
+        <box
+            name="b1.1"
+            align="top"
+            width="190"
+            height="120">
+            <image
+                source="heart_rate_bar"
+                width="190"
+                height="60"
+                marginTop="18"/>
+            <textarea
+                name="heart_rate_zone_name"
+                width="190"
+                height="42"
+                size="20"
+                content="HEART RATE ZONE"
+                marginTop="10"/>
+        </box>
+        <box
+            name="b1.2"
+            align="right"
+            width="206"
+            height="120"
+            marginBottom="30">
+            <textarea
+                width="24"
+                height="72"
+                size="20"
+                content="@string/caps_bpm_vertical"
+                marginTop="18"
+                marginLeft="4"
+                iosVerticalAdjust="20"/>
+            <textarea
+                width="178"
+                height="90"
+                size="70"
+                name="value"
+                content="____"
+                text_align="right"
+                bold="true"
+                colour="@color/single_unit_text"/>
+        </box>
+    </box>
+    <textarea
+        width="428"
+        height="30"
+        size="22"
+        content="@string/vc_title_heart_rate_zones"
+        text_align="center_horizontal"
+        bold="false"
+        marginTop="4"/>
+</page>

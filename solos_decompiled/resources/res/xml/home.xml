@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page
+    name="home"
+    version="2"
+    align="top">
+    <include source="_header"/>
+    <box
+        width="428"
+        height="80"
+        marginTop="20"
+        align="left">
+        <image
+            source="vc_logo"
+            width="130"
+            height="62"
+            color="default_font"
+            marginLeft="149"/>
+    </box>
+    <textarea
+        width="428"
+        height="80"
+        name="message"
+        size="24"
+        text_align="center_horizontal"
+        content="@string/no_sensor_message"
+        bold="false"
+        marginTop="20"/>
+</page>

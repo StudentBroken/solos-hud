@@ -1,0 +1,125 @@
+John Floren
+Home | Blog | Uses | Links
+Back to blog archive
+Posted 2025/8/28
+
+Reverse engineering Solos smart glasses
+First and foremost: If you’ve got any documentation on this hardware, please contact me! I would love to read the actual specs for this protocol.
+
+Background
+Before the audio-only AI-based smart glasses of today, we’d periodically see companies announcing smart glasses with displays, usually to small fanfare and little success. The Solos Smart Glasses are just another example. Released in 2018, they targeted cyclists and runners. The company itself was spun out of Kopin, which has been making micro-displays for electronic viewfinder and military/industrial HUDs for decades. They cost $500 at time of release and weren’t much of a success, as far as I can tell.
+
+Because they weren’t a big hit, I was able to get a new-in-box pair for $30 shipped on ebay. Now, Solos is still making smart glasses, although they’ve pivoted to audio-only AI glasses like everyone else in the world. I emailed support asking for documentation, but they played all cagey (wouldn’t want to tell somebody how to use a product you dropped 7 years ago) and wouldn’t do more than give me the APK for the companion app.
+
+
+
+I played with the app on a bike ride. As you see in the review I linked above, the glasses cycle through several screens of information as you ride, in a way which I found pretty usable. It also does navigation, but bitrot appears to have set in… it was constantly convinced I had left the route and needed a new route calculated, then when I reached the destination it said “you have arrived” over and over until I shut it down.
+
+Yes, you can remove the slightly goofy yellow plastic lenses:
+
+
+
+Anyway, I don’t really need a wearable bike computer, so I started trying to figure out how I could hack these. Why am I interested? Because I’m interested in displays for wearable computing, and these are both cheap and wireless.
+
+Bluetooth capture
+I guessed that the glasses probably didn’t run a lot of software on-board but instead received bitmaps or vector graphics from the smartphone app via Bluetooth. Luckily, you can capture Bluetooth traffic in Android:
+
+Enable developer options on the phone.
+In the developer options menu, turn on “Enable Bluetooth HCI snoop log”
+Restart Bluetooth, connect the device, do some stuff.
+Turn off Bluetooth, turn offf the snoop log option.
+Plug in to your computer via USB, enable USB debugging on the phone, run adb bugreport android_bugreport
+Unzip resulting android_bugreport.zip and look at android_bugreport/data/misc/bluetooth/logs; there should be a file you can open in Wireshark.
+Analysis
+After a little poking around, I spotted a likely-looking pattern. The phone would send a big packet beginning with 1d60, then several more packets, then a small pause, then another sequence beginning with 1d60:
+
+
+
+I found that if I saved these payloads to a text file, I could actually use a little Python script to replay them over Bluetooth and the glasses would indeed re-display what I’d seen before! Ok, clearly there’s image data in there somewhere.
+
+I isolated the first hundred-ish bytes of one of these sequences and started to look closely:
+
+1d60050000001c4c000002000000010000000000ac01f000ff0000ad0000ff0000ad0000ff0000ad0000ff0000ad0000ff00
+The first thing that stands out is the repeated sequence in the latter half, ff0000ad0000. The pattern actually repeated quite a few times more, then started to change. The output I had seen was a black screen with colored text & simple diagrams on it, so I made the assumption that 0000 represented the color black. I created a new packet with the same header but repeated ff5555adcccc instead, and saw teal on the left side of the screen and orange on the right. With a little more examination, it became clear that ff0000 means “255 pixels of 0x0000 (black)” and ad0000 means “173 pixels of 0x0000”. It’s Run-Length Encoding that specifies how many pixels and then an RGB 5:6:5 (little-endian) color.
+
+Examining the header, I believe it breaks down like this:
+
+1d60: magic number indicating the beginning of a command.
+05000000: unclear, probably selects a drawing mode. I also saw 0a00, 0240, and 0310 but those didn’t have the same sort of pixel data following.
+`1c4c0000: a little-endian representation of the number of bytes of RLE-encoded image data which will follow this header. The weird thing is this only works properly if I divide the actual length by two…
+02000000010: unclear, but this was the same on all packets with RLE data had the same value here.
+00000000: I believe this is an x,y offset to indicate where to start drawing. All zeroes means start at the top-left, but it seems that the app likes to draw a status bar w/ time and battery level at the top, then refresh a smaller box lower down to show the gauges. I saw values like 45001200 in other packets, which would be an offset of 69,18.
+ac01f000: The x,y dimensions of the RLE data to follow, in this case 0x01ac (428) by 0x00f0 (240) which is the resolution of the display.
+The one thing I’m left scratching my head over is the length field. If I have 0x20 bytes of image data to send over, I actually need to put 0x10 into that field. What I saw in the packet capture was that they would send e.g. 0x20, then re-transmit the exact same sequence of packets twice. I don’t know exactly why.
+
+Driving the display
+After some experimentation, I came up with the following Python script, which will read any number of 428x240 image files (specified as command line arguments), RLE-encode them, and ship to the device with a 2 second pause between each:
+
+import bluetooth
+import binascii
+import time
+from PIL import Image
+import sys
+
+def get_rle(inputfile):
+    img = Image.open(inputfile).convert(mode="RGB",dither=Image.Dither.NONE)
+
+    count = 0
+    last = ""
+    s = ""
+    for y in range(240):
+        for x in range(428):
+            red, green, blue = img.getpixel((x, y))
+            red = red >> 3
+            green = green >> 2
+            blue = blue >> 3
+            rgb16 = ((red << 11) | (green << 5) | blue)
+            color = (0xffff & rgb16).to_bytes(2, 'little').hex()
+            if last == "":
+                last = color
+            if (last != color) or count == 0xff:
+                v = f'{count:02x}{last}'
+                s = s + v
+                count = 0
+            last = color
+            count = count + 1
+    return s
+
+bd_addr="cc:78:ab:59:6a:2b"
+port = 1
+sock=bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+sock.connect((bd_addr, port))
+
+for arg in sys.argv[1:]:
+    # get the image string
+    img = get_rle(arg)
+    # break it up into chunks for shipping over bluetooth
+    chunk_size=900
+    imgchunks = [ img[i:i+chunk_size] for i in range(0, len(img), chunk_size) ]
+    for index, chunk in enumerate(imgchunks):
+        if index == 0:
+            length=(len(img)//2).to_bytes(4, 'little').hex()
+            print(length)
+            chunk = f'1d6005000000{length}02000000010000000000ac01f000' + chunk
+        sock.send(binascii.unhexlify(chunk))
+    time.sleep(2)
+(I do not claim to be a great Python programmer)
+
+I shipped over a simple image showing the current conditions at home:
+
+
+
+Then I tried loading up an actual photo. It takes a bit to send this much data over, but it looks surprisingly good:
+
+
+
+If you wanted to do something useful, you could just run while true; python client.py /tmp/hud/*.png; sleep 1; done and have cron scripts generating images that get dropped into /tmp/hud.
+
+Conclusion and next steps
+I’ve got the device displaying arbitrary images. This alone is enough to show useful information: subject lines of emails, weather forecast, up/down status of services on my home network, etc. I just have to get pipelines set up to generate images displaying those things and push them over in some sensible order. The simple bash loop I showed above would actually be a great start to this!
+
+The best part is, it’s all nondestructive: as soon as I pair the glasses to my phone again, I can open up the app and use it on a bike ride or a run.
+
+The device also includes a microphone and speakers, which could be a useful addition to a wearable system (although I’m quite happy with wearing a single Bluetooth earbud for microphone/speakers right now). When I paired the glasses to my laptop, audio devices didn’t show up, but they act like regular headphones on my Android device, meaning there’s probably a command I need to send to turn them on.
+
+John Floren

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.twitter.sdk.android.tweetui.internal.VideoView
+        android:layout_gravity="center"
+        android:id="@+id/video_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <com.twitter.sdk.android.tweetui.internal.VideoControlView
+        android:layout_gravity="bottom"
+        android:id="@+id/video_control_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</merge>

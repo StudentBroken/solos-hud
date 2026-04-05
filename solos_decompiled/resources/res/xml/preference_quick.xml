@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" xmlns:custom="http://schemas.android.com/apk/res/com.kopin.solos" xmlns:app="http://schemas.android.com/apk/res-auto" android:key="parent_screen">
+    <com.kopin.solos.settings.CustomSwitchPreference
+        android:persistent="false"
+        android:title="@string/pref_auto_start"
+        android:key="pref_auto_start_switch"
+        android:widgetLayout="@layout/switch_preference"
+        android:defaultValue="false"/>
+    <com.kopin.solos.settings.CustomSwitchPreference
+        android:title="@string/pref_pause_control"
+        android:key="auto_pause_control"
+        android:widgetLayout="@layout/switch_preference"
+        android:defaultValue="false"/>
+    <com.kopin.solos.settings.ValidatedEditTextPreference
+        android:layout="@layout/layout_target_preference"
+        android:selectable="false"
+        android:key="pause_control_speed"
+        android:summary="2.0 mph"
+        android:dependency="auto_pause_control"
+        android:defaultValue="1"
+        android:inputType="numberDecimal"
+        custom:minValue="3.2"
+        custom:maxValue="30"
+        custom:maxLength="4"
+        custom:maxImperial="18.5"
+        custom:minImperial="2"/>
+    <com.kopin.solos.settings.CustomSwitchPreference
+        android:title="?attr/strScreenLock"
+        android:key="auto_lock_enabled"
+        android:widgetLayout="@layout/switch_preference"
+        android:defaultValue="true"/>
+    <com.kopin.solos.settings.CustomListPreference
+        android:entries="@array/setting_vocon_entries"
+        android:title="@string/setting_voice_assistant"
+        android:key="vocon"
+        android:summary="@string/off"
+        android:defaultValue="@string/setting_vocon_default_value"
+        android:entryValues="@array/setting_vocon_values"/>
+</PreferenceScreen>

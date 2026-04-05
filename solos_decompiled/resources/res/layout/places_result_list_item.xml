@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_route_marker"
+        android:tint="@color/navigation_orange"/>
+    <TextView
+        android:textSize="@dimen/navigation_search_font_size"
+        android:textColor="@color/navigation_grey"
+        android:gravity="center"
+        android:id="@+id/place_name"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/navigation_search_padding"
+        android:minHeight="@dimen/navigation_search_results_height"/>
+</LinearLayout>

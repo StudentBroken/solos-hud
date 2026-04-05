@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<NUANCE>
+<VERSION>NUAN_1.0</VERSION>
+<HEADER>
+  <BROKERSTRING>pipeline/American English/ava/22/dri40_155mrf22/text/pcm</BROKERSTRING>
+  <PRIORITY>4215</PRIORITY>
+  <PARAMETERS>
+    <language>American English</language>
+    <langcode>ENU</langcode>
+    <langid>10</langid>
+    <langversion>5.2.3.0000</langversion>
+    <nativetypeofchar>utf-16</nativetypeofchar>
+    <voice>Ava</voice>
+    <voiceversion>5.2.3.12198</voiceversion>
+    <gender>Female</gender>
+    <age>Adult</age>
+    <fecfg>cfg3</fecfg>
+    <voiceml>no</voiceml>
+    <mlset>enu,frc,spm</mlset>
+    <extclccfg>*+mpthree=clc/enu/mpthreevadml,frc+*=clc/frc/cfg3,spm+*=clc/spm/cfg3</extclccfg>
+    <fedataprefix></fedataprefix>
+    <fedatapackaging>clc</fedatapackaging>
+    <fevoice>Ava</fevoice>
+    <frequencyhz>22050</frequencyhz>
+    <voicemodel>dri40_155mrf22</voicemodel>
+    <reduction>dri40</reduction>
+    <coder>155mrf22</coder>
+    <bitrate>270</bitrate>
+    <overheadframes>06</overheadframes>
+    <audiooutputmimetype>audio/L16;rate=22050</audiooutputmimetype>
+    <audiooutputsamplebits>16</audiooutputsamplebits>
+    <typeofsynthesis>psola</typeofsynthesis>
+  </PARAMETERS>
+  <OBJECTS>
+    <AUDIOFETCHER>audiofetch</AUDIOFETCHER>
+    <DCTEG>dcteg</DCTEG>
+    <DOMAINMNGR>domain_mngr</DOMAINMNGR>
+    <FE_DCTLKP>fe/fe_dctlkp</FE_DCTLKP>
+    <FE_DEPES>fe/fe_depes</FE_DEPES>
+    <INET>inetspi</INET>
+    <PHONMAP>phonmap</PHONMAP>
+  </OBJECTS>
+  <COMPONENTS>
+    <COMPONENT>xcoder</COMPONENT>
+    <COMPONENT>ttt/re</COMPONENT>
+    <COMPONENT>pp/text_parser</COMPONENT>
+    <COMPONENT>pp/sent_parser</COMPONENT>
+    <COMPONENT>pp/word_parser</COMPONENT>
+    <COMPONENT>fe/fe_lid</COMPONENT>
+    <COMPONENT>fe/fe_voice_switch</COMPONENT>
+    <COMPONENT>fe/fe_udwl</COMPONENT>
+    <COMPONENT>fe/fe_clcml</COMPONENT>
+    <COMPONENT>fe/fe_promptoriorth</COMPONENT>
+    <COMPONENT>fe/fe_unixlit</COMPONENT>
+    <COMPONENT>fe/fe_initlingdb</COMPONENT>
+    <COMPONENT>fe/fe_promptorth</COMPONENT>
+    <COMPONENT>fe/tokentn</COMPONENT>
+    <COMPONENT>fe/fe_abbrtn</COMPONENT>
+    <COMPONENT>fe/fe_puncsptn</COMPONENT>
+    <COMPONENT>fe/fe_oneword</COMPONENT>
+    <COMPONENT>fe/fe_pos</COMPONENT>
+    <COMPONENT>fe/fe_hmogrph</COMPONENT>
+    <COMPONENT>fe/fe_phrasing</COMPONENT>
+    <COMPONENT>fe/fe_normout</COMPONENT>
+    <COMPONENT>fe/fe_prmfx</COMPONENT>
+    <COMPONENT>fe/fe_prompt</COMPONENT>
+    <COMPONENT>fe/fe_global</COMPONENT>
+    <COMPONENT>be/featextract</COMPONENT>
+    <COMPONENT>uselect/bet1</COMPONENT>
+    <COMPONENT>synth/bet1</COMPONENT>
+    <COMPONENT>audioinserter</COMPONENT>
+    <COMPONENT>phonmap/mrk</COMPONENT>
+    <COMPONENT>xcoder/mrksync</COMPONENT>
+  </COMPONENTS>
+  <RESOURCES>
+    <!-- The next entry specifies a broker string for the user dict -->
+    <RESOURCE content-type="application/edct-bin-dictionary;loader=broker">
+      ava/userdct/enu
+    </RESOURCE>
+  </RESOURCES>
+</HEADER>
+</NUANCE>

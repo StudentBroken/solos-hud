@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page
+    name="navigation_destination_reached"
+    align="top"
+    version="2">
+    <include source="_header"/>
+    <box
+        width="428"
+        height="40"
+        align="left"
+        marginTop="15">
+        <image
+            source="destination_reached_icon"
+            marginLeft="189"
+            width="40"
+            height="40"
+            color="default_font"/>
+    </box>
+    <box
+        width="418"
+        height="30"
+        align="left"
+        marginTop="10">
+        <textarea
+            width="428"
+            height="45"
+            size="24"
+            name="destinationReached"
+            content="DESTINATION REACHED"
+            text_align="center_horizontal"/>
+    </box>
+    <box
+        width="428"
+        height="60"
+        align="left"
+        marginTop="5">
+        <textarea
+            width="248"
+            height="70"
+            size="50"
+            name="rideTime"
+            content="00:00:00"
+            text_align="center_horizontal"
+            colour="@color/navigation_green"/>
+        <textarea
+            width="120"
+            height="70"
+            size="50"
+            name="avgSpeed"
+            content="18.2"
+            text_align="right"
+            colour="@color/navigation_green"/>
+        <textarea
+            width="60"
+            height="70"
+            size="16"
+            name="units"
+            content="KM/H"
+            text_align="left"
+            marginLeft="10"
+            marginTop="13"/>
+    </box>
+    <box
+        width="428"
+        height="25"
+        align="left"
+        marginTop="5">
+        <textarea
+            width="248"
+            height="25"
+            size="20"
+            name="timeElapsed"
+            content="TIME ELAPSED"
+            text_align="center_horizontal"/>
+        <textarea
+            width="120"
+            height="25"
+            size="20"
+            name="avgSpeedLabel"
+            content="AVG SPEED"
+            text_align="right"/>
+    </box>
+</page>

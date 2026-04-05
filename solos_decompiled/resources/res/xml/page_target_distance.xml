@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page
+    name="page_target_distance"
+    align="top"
+    version="2">
+    <include source="_header"/>
+    <box
+        width="*"
+        height="63"
+        align="left"
+        marginTop="20">
+        <image
+            source="target_distance_icon"
+            marginLeft="49"
+            width="90"
+            height="90"
+            color="default_font"/>
+        <box
+            width="*"
+            height="*"
+            align="right"
+            paddingRight="48">
+            <textarea
+                size="32"
+                name="unit"
+                content="@string/distance_unit"
+                thin="true"/>
+            <space
+                width="5"
+                height="*"/>
+            <textarea
+                size="60"
+                name="value"
+                content="--------"
+                thin="true"
+                text_align="right"
+                marginBottom="15"
+                colour="@color/single_unit_text"/>
+        </box>
+    </box>
+    <space
+        width="*"
+        height="*"/>
+    <progressbar
+        name="progressbar"
+        active_color="@color/single_unit_text"
+        color="theme"
+        width="*"
+        progress="0"/>
+    <textarea
+        size="24"
+        name="bottom_text"
+        content="@string/vc_title_target_distance"
+        bold="false"
+        marginTop="20"/>
+</page>

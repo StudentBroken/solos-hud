@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="@color/app_actionbar_divider"/>
+        </shape>
+    </item>
+    <item
+        android:left="1dp"
+        android:right="1dp"
+        android:bottom="1dp">
+        <shape>
+            <solid android:color="@color/pref_background"/>
+        </shape>
+    </item>
+    <item android:bottom="5dp">
+        <shape>
+            <solid android:color="@color/pref_background"/>
+        </shape>
+    </item>
+</layer-list>

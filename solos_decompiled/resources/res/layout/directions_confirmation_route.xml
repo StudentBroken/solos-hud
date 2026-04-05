@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:background="?attr/drawableAppBg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@color/navigation_transparent_black"
+            android:padding="@dimen/navigation_search_results_padding"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <fragment
+                android:name="com.google.android.gms.maps.MapFragment"
+                android:id="@+id/routemap"
+                android:layout_width="match_parent"
+                android:layout_height="0px"
+                android:layout_weight="1"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="0px"
+                android:layout_weight="1.5">
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/navigation_search_padding"/>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/navigation_search_padding"/>
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/directions_time_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/navigate_estimated_time"
+                    style="@style/search_text_header"/>
+                <include layout="@layout/layout_directions_time_section"/>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/navigation_search_padding"/>
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/directions_distance_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/distance"
+                    style="@style/search_text_header"/>
+                <include layout="@layout/layout_directions_distance_section"/>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/navigation_search_padding"/>
+                <include layout="@layout/layout_directions_route_buttons"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

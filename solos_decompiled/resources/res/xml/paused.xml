@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page
+    name="paused"
+    version="2"
+    align="top"
+    paddingTop="29">
+    <box
+        width="428"
+        height="99"
+        marginTop="50"
+        marginBottom="8"
+        align="top">
+        <image
+            source="pause_icon"
+            width="88"
+            height="88"
+            color="default_font"
+            marginLeft="170"
+            marginRight="170"/>
+    </box>
+    <textarea
+        width="428"
+        height="40"
+        name="pause_message"
+        size="25"
+        text_align="center_horizontal"
+        content="-------------------"
+        bold="false"
+        marginTop="8"/>
+</page>

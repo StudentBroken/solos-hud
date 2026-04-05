@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page
+    name="single_metric"
+    align="top"
+    version="2">
+    <include source="_header"/>
+    <box
+        name="main"
+        width="428"
+        height="110"
+        align="right"
+        marginTop="10"
+        paddingRight="14"
+        paddingLeft="14">
+        <textarea
+            width="130"
+            height="40"
+            size="22"
+            name="unit"
+            content="---"
+            marginLeft="10"
+            marginTop="65"
+            iosVerticalAdjust="20"/>
+        <textarea
+            width="260"
+            height="110"
+            size="92"
+            name="value"
+            content="-------"
+            bold="true"
+            text_align="right"
+            colour="@color/single_unit_text"/>
+    </box>
+    <textarea
+        width="428"
+        height="36"
+        marginTop="10"
+        size="20"
+        name="label"
+        content="----------------"
+        bold="false"
+        text_align="center_horizontal"
+        iconName="metric_image"
+        source="SPEED"
+        iconWidth="36"
+        iconHeight="36"/>
+</page>

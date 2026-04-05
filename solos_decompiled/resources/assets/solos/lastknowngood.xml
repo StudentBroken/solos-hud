@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<binfile filename="Rio_611.bin" num_seg="2" >
+<time localtime="Thu May  4 17:01:17 2017
+"  > </time>
+<version  major_ver_num="6" minor_ver_num="1" subminor_ver_num="1" protocol_major_ver="1" protocol_minor_ver="0" protocol_subminor_ver="22">  </version> 
+<segments>
+<segment num="0" start_address="0" num_data="16384"  bank="1">
+<signature byte_length ="64"> 35eec1cca3180ca7bd032324ab2454015ab4f86ff04729623e076b1eb2eb61eabb20e1313b8312cf286b77ef55cfc66be8d255eba613a57acc8e7fd978623fee </signature>
+</segment>
+<segment num="1" start_address="32768" num_data="623108"  bank="1">
+<signature byte_length ="64"> fa7bf291886b279a516e600d4aa4f2242e240e1cd64b4299f62fe8c9ecf1b362dab97c77ff4d88ea2f52408e4336d70237a66723080ce45973c0ede57992159a </signature>
+</segment>
+</segments>
+</binfile>
+

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page
+    name="two_view_target_target"
+    version="2"
+    align="top">
+    <include source="_header"/>
+    <include source="_target1"/>
+    <textarea
+        width="428"
+        height="20"
+        size="15"
+        name="target_metric1"
+        content="______________________"
+        text_align="center_horizontal"/>
+    <rectangle
+        color="default_font"
+        width="356"
+        height="1"
+        marginLeft="36"
+        marginRight="36"
+        marginTop="3"/>
+    <include source="_target2"/>
+    <textarea
+        width="428"
+        height="20"
+        size="15"
+        name="target_metric2"
+        content="______________________"
+        text_align="center_horizontal"/>
+</page>
