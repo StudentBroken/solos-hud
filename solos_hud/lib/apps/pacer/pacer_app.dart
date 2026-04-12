@@ -69,97 +69,113 @@ class PacerApp extends GlassesApp {
       ui.Paint()..color = const Color(0xFF050510),
     );
 
-    const lineX = w / 3.0;           // vertical guide line at 1/3 width = 160
-    const lineTop = 20.0;
-    const lineBottom = 220.0;
-    const centerY = (lineTop + lineBottom) / 2; // 120
+    // ── Layout ────────────────────────────────────────────────────────────
+    // Left 130px: thick vertical rail + tracker
+    // Right 350px: pace number + goal
+    const railX   = 65.0;
+    const railTop = 12.0;
+    const railBot = 228.0;
+    const centerY = (railTop + railBot) / 2; // 120
+    const halfRange = (railBot - railTop) / 2 - 8;
 
-    // ── Vertical guide line ───────────────────────────────────────────────
-    canvas.drawLine(
-      Offset(lineX, lineTop),
-      Offset(lineX, lineBottom),
-      ui.Paint()
-        ..color = const Color(0xFF334466)
-        ..strokeWidth = 2,
-    );
-
-    // ── Green target circle ───────────────────────────────────────────────
-    canvas.drawCircle(
-      const Offset(lineX, centerY),
-      14,
-      ui.Paint()..color = const Color(0xFF00CC44),
-    );
-    canvas.drawCircle(
-      const Offset(lineX, centerY),
-      14,
-      ui.Paint()
-        ..color = const Color(0xFF003311)
-        ..style = ui.PaintingStyle.stroke
-        ..strokeWidth = 2,
-    );
-
-    // ── Tracker position — use Kalman-fused speed for smooth, low-lag pace ──
+    // ── Calculations ──────────────────────────────────────────────────────
     final currentSpeedMs = fusion.speedMs;
     final currentPaceSec = currentSpeedMs > 0.2 ? 1000.0 / currentSpeedMs : 0.0;
     double trackerY = centerY;
     if (goalPaceSecPerKm > 0 && currentPaceSec > 0) {
-      final deviation = currentPaceSec - goalPaceSecPerKm; // + = slower
-      final fraction = (deviation / 60.0).clamp(-1.0, 1.0);
-      trackerY = centerY + fraction * 100.0;
+      final fraction = ((currentPaceSec - goalPaceSecPerKm) / 60.0).clamp(-1.0, 1.0);
+      trackerY = centerY + fraction * halfRange;
     }
 
-    // Tracker color: above center = faster (blue), below = slower (red)
-    final trackerColor = trackerY < centerY - 4
-        ? const Color(0xFF4499FF)
-        : trackerY > centerY + 4
-            ? const Color(0xFFFF4444)
-            : const Color(0xFF44FF88);
+    // Color driven by deviation — blue=fast, green=on, red=slow
+    final trackerColor = trackerY < centerY - 6
+        ? const Color(0xFF3399FF)
+        : trackerY > centerY + 6
+            ? const Color(0xFFFF3333)
+            : const Color(0xFF00FF66);
 
-    // Draw tracker as a horizontal rectangle
+    // ── Thick rail ────────────────────────────────────────────────────────
+    canvas.drawLine(
+      Offset(railX, railTop), Offset(railX, railBot),
+      ui.Paint()
+        ..color = const Color(0xFF1A2E48)
+        ..strokeWidth = 8
+        ..strokeCap = ui.StrokeCap.round,
+    );
+
+    // Tick marks (wider)
+    for (final frac in [-1.0, -0.5, 0.5, 1.0]) {
+      final ty = centerY + frac * halfRange;
+      canvas.drawLine(
+        Offset(railX - 14, ty), Offset(railX + 14, ty),
+        ui.Paint()
+          ..color = const Color(0xFF2A4466)
+          ..strokeWidth = 3
+          ..strokeCap = ui.StrokeCap.round,
+      );
+    }
+
+    // Goal circle — large and bright
+    canvas.drawCircle(Offset(railX, centerY), 22,
+        ui.Paint()..color = const Color(0xFF00AA33));
+    canvas.drawCircle(Offset(railX, centerY), 22,
+        ui.Paint()
+          ..color = const Color(0xFF00FF66).withValues(alpha: 0.4)
+          ..style = ui.PaintingStyle.stroke
+          ..strokeWidth = 4);
+
+    // Tracker bar — thick and wide
     canvas.drawRRect(
       RRect.fromRectAndRadius(
-        Rect.fromCenter(center: Offset(lineX, trackerY), width: 54, height: 10),
-        const Radius.circular(4),
+        Rect.fromCenter(center: Offset(railX, trackerY), width: 96, height: 20),
+        const Radius.circular(6),
       ),
       ui.Paint()..color = trackerColor,
     );
+    // Glow ring around tracker
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(center: Offset(railX, trackerY), width: 96, height: 20),
+        const Radius.circular(6),
+      ),
+      ui.Paint()
+        ..color = trackerColor.withValues(alpha: 0.35)
+        ..style = ui.PaintingStyle.stroke
+        ..strokeWidth = 5,
+    );
 
-    // ── Right panel: pace + HR ────────────────────────────────────────────
-    const rightCenter = (lineX + w) / 2; // midpoint of right section ≈ 320
-
-    // Current pace (large)
-    final paceStr = _formatPace(currentPaceSec);
-    _drawText(canvas, paceStr,
-        x: rightCenter, y: 48, size: 76, color: const Color(0xFFFFFFFF), center: true);
-
-    _drawText(canvas, 'PACE /km',
-        x: rightCenter, y: 136, size: 18, color: const Color(0xFF4477AA), center: true);
-
-    // Goal pace indicator
-    if (goalPaceSecPerKm > 0) {
-      final goalStr = 'GOAL ${_formatPace(goalPaceSecPerKm)}';
-      _drawText(canvas, goalStr,
-          x: rightCenter, y: 162, size: 20, color: const Color(0xFFFFAA00), center: true);
+    // Deviation label beside tracker
+    if (goalPaceSecPerKm > 0 && currentPaceSec > 0) {
+      final dev    = currentPaceSec - goalPaceSecPerKm;
+      final sign   = dev >= 0 ? '+' : '-';
+      final abs    = dev.abs();
+      final devStr = abs >= 60
+          ? '$sign${(abs ~/ 60)}m${(abs % 60).round().toString().padLeft(2, '0')}s'
+          : '$sign${abs.round()}s';
+      _drawText(canvas, devStr,
+          x: 2, y: trackerY - 11, size: 20, color: trackerColor, maxW: railX - 4);
     }
 
-    // HR
-    final hrStr = hr.heartRate != null ? '♥ ${hr.heartRate}' : '♥ --';
-    final hrColor = hr.heartRate != null && hr.heartRate! > 160
-        ? const Color(0xFFFF4444)
-        : const Color(0xFF00FF88);
-    _drawText(canvas, hrStr,
-        x: rightCenter, y: 198, size: 30, color: hrColor, center: true);
+    // ── Separator ─────────────────────────────────────────────────────────
+    canvas.drawLine(
+      const Offset(126, 8), const Offset(126, 232),
+      ui.Paint()..color = const Color(0xFF0E1A28)..strokeWidth = 1.5,
+    );
 
-    // ── Pace deviation label (left of line, small) ────────────────────────
-    if (goalPaceSecPerKm > 0 && currentPaceSec > 0) {
-      final dev = currentPaceSec - goalPaceSecPerKm;
-      final sign = dev >= 0 ? '+' : '';
-      final devMins = (dev.abs() ~/ 60);
-      final devSecs = (dev.abs() % 60).round();
-      final devStr = '$sign${devMins > 0 ? '${devMins}m' : ''}${devSecs}s';
-      _drawText(canvas, devStr,
-          x: lineX / 2, y: trackerY - 10, size: 16,
-          color: trackerColor, center: true);
+    // ── Right panel ───────────────────────────────────────────────────────
+    const panelX = 134.0;
+    final panelW = w.toDouble() - panelX - 8;
+
+    // BIG pace — color changes with state
+    final paceStr = _formatPace(currentPaceSec);
+    _drawText(canvas, paceStr,
+        x: panelX, y: 8, size: 110, color: trackerColor, maxW: panelW);
+
+    // Goal pace — large, prominent, only when set
+    if (goalPaceSecPerKm > 0) {
+      _drawText(canvas, 'GOAL  ${_formatPace(goalPaceSecPerKm)}',
+          x: panelX, y: 168, size: 38, color: const Color(0xFFFFAA00),
+          maxW: panelW);
     }
 
     final picture = recorder.endRecording();
@@ -169,26 +185,35 @@ class PacerApp extends GlassesApp {
     return encodeJpegAsync(byteData.buffer.asUint8List(), w, h, quality: 82);
   }
 
+  /// Format pace without leading zero: 5:03 not 05:03
   String _formatPace(double secPerKm) {
     if (secPerKm <= 0) return '--:--';
-    final m = (secPerKm ~/ 60).toString().padLeft(2, '0');
+    final m = (secPerKm ~/ 60).toInt();
     final s = (secPerKm % 60).round().toString().padLeft(2, '0');
     return '$m:$s';
   }
 
-  void _drawText(ui.Canvas canvas, String text,
-      {required double x, required double y, required double size,
-      required Color color, bool center = false}) {
-    final pb = ui.ParagraphBuilder(ui.ParagraphStyle(
-      textAlign: ui.TextAlign.center,
-      fontSize: size,
-      fontWeight: ui.FontWeight.w700,
-    ))
-      ..pushStyle(ui.TextStyle(color: color, fontSize: size, fontWeight: ui.FontWeight.w700))
+  void _drawText(ui.Canvas canvas, String text, {
+    required double x,
+    required double y,
+    required double size,
+    required Color color,
+    required double maxW,
+  }) {
+    final pb = ui.ParagraphBuilder(
+      ui.ParagraphStyle(
+        textAlign: ui.TextAlign.left,
+        fontSize: size,
+        fontWeight: ui.FontWeight.w700,
+        maxLines: 1,
+        ellipsis: '…',
+      ),
+    )
+      ..pushStyle(ui.TextStyle(
+          color: color, fontSize: size, fontWeight: ui.FontWeight.w700))
       ..addText(text);
-    final maxW = SolosProtocol.displayWidth.toDouble();
     final para = pb.build()..layout(ui.ParagraphConstraints(width: maxW));
-    canvas.drawParagraph(para, Offset(x - (center ? maxW / 2 : maxW / 2), y));
+    canvas.drawParagraph(para, Offset(x, y));
   }
 
   @override
@@ -200,7 +225,7 @@ class PacerApp extends GlassesApp {
     final pace = spd > 0.2 ? 1000.0 / spd : 0.0;
     final label = pace > 0 ? _formatPace(pace) : '--:--';
     return Text(
-      'Pace: $label /km',
+      'Pace: $label',
       style: Theme.of(context)
           .textTheme
           .bodySmall

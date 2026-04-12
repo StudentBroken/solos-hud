@@ -113,11 +113,11 @@ class MusicApp extends GlassesApp {
 
     if (track == null) {
       _drawText(canvas, '♪  Nothing playing',
-          0, dh / 2 - 16, 28, const Color(0xFF557799),
+          0, dh / 2 - 20, 34, const Color(0xFF557799),
           false, ui.TextAlign.center, dw);
     } else {
-      // ── Small album art thumbnail (left, 80×80) ────────────────────────
-      const artSize = 84.0;
+      // ── Album art — left half (0..240) ────────────────────────────────
+      const artW = 240.0;
       if (track.albumArtJpeg != null) {
         if (_cachedArtBytes != track.albumArtJpeg) {
           _cachedImage?.dispose();
@@ -130,54 +130,80 @@ class MusicApp extends GlassesApp {
             Rect.fromLTWH(0, 0,
                 _cachedImage!.width.toDouble(),
                 _cachedImage!.height.toDouble()),
-            Rect.fromLTWH(4, (dh - artSize) / 2, artSize, artSize),
+            Rect.fromLTWH(0, 0, artW, dh),
             ui.Paint(),
-          );
-          // Soft right-edge fade
-          canvas.drawRect(
-            Rect.fromLTWH(artSize - 16, 0, 24, dh),
-            ui.Paint()
-              ..shader = ui.Gradient.linear(
-                Offset(artSize - 16, 0),
-                Offset(artSize + 8, 0),
-                [Colors.transparent, bg],
-              ),
           );
         }
       } else {
+        // No art — music note placeholder
         canvas.drawRect(
-          Rect.fromLTWH(4, (dh - artSize) / 2, artSize, artSize),
+          Rect.fromLTWH(0, 0, artW, dh),
           ui.Paint()..color = const Color(0xFF0A1020),
         );
-        _drawText(canvas, '♪', 4, (dh - artSize) / 2 + 10,
-            54, const Color(0xFF446688), false,
-            ui.TextAlign.center, artSize);
+        _drawText(canvas, '♪',
+            0, dh / 2 - 50, 90, const Color(0xFF1A3355),
+            false, ui.TextAlign.center, artW);
       }
 
-      // ── Track info — big text, right of thumbnail ──────────────────────
-      const infoX = artSize + 12;
-      final infoW  = dw - infoX - 8;
+      // Gradient fade from art into background
+      canvas.drawRect(
+        Rect.fromLTWH(artW - 48, 0, 56, dh),
+        ui.Paint()
+          ..shader = ui.Gradient.linear(
+            Offset(artW - 48, 0), Offset(artW + 8, 0),
+            [Colors.transparent, bg],
+          ),
+      );
 
-      // App source (tiny label)
-      _drawText(canvas, track.appName.toUpperCase(),
-          infoX, 8, 13, const Color(0xFF445566),
-          false, ui.TextAlign.left, infoW);
+      // ── Track info — right half (x=248..480) ──────────────────────────
+      const infoX = 248.0;
+      final infoW = dw - infoX - 6;
 
-      // Title — large scrolling marquee
+      // Title — fills most of right panel
       _drawScrollingText(canvas, track.displayTitle,
-          infoX, 28, 58, white, true, infoW);
+          infoX, 14, 56, white, true, infoW);
 
-      // Artist — large
+      // Artist
       if (track.displayArtist.isNotEmpty) {
         _drawText(canvas, track.displayArtist,
-            infoX, 102, 38, muted,
-            false, ui.TextAlign.left, infoW);
+            infoX, 88, 36, muted, false, ui.TextAlign.left, infoW);
       }
 
-      // Play / Pause indicator
-      const iconSize = 32.0;
-      _drawPlaybackStatus(
-          canvas, infoX + 4, 154, iconSize, white, track.isPlaying);
+      // Source app (tiny, bottom of panel)
+      _drawText(canvas, track.appName.toUpperCase(),
+          infoX, 136, 14, const Color(0xFF334455),
+          false, ui.TextAlign.left, infoW);
+
+      // Play / Pause icon — large, drawn cleanly
+      const iconY = 160.0;
+      const iconH = 52.0;
+      final paint = ui.Paint()..color = white..style = ui.PaintingStyle.fill;
+      if (track.isPlaying) {
+        // Two rectangles (pause bars) — fat and visible
+        const barW = 14.0;
+        const gap  = 12.0;
+        final x0   = infoX + (infoW - barW * 2 - gap) / 2;
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(
+            Rect.fromLTWH(x0, iconY, barW, iconH), const Radius.circular(3)),
+          paint,
+        );
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(
+            Rect.fromLTWH(x0 + barW + gap, iconY, barW, iconH),
+            const Radius.circular(3)),
+          paint,
+        );
+      } else {
+        // Triangle (play) — pointing right
+        final cx = infoX + (infoW - iconH * 0.8) / 2;
+        final path = ui.Path()
+          ..moveTo(cx, iconY)
+          ..lineTo(cx + iconH * 0.86, iconY + iconH / 2)
+          ..lineTo(cx, iconY + iconH)
+          ..close();
+        canvas.drawPath(path, paint);
+      }
     }
 
     final picture = rec.endRecording();

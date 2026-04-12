@@ -171,7 +171,7 @@ class _HourlyStrip extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 8, 12, 4),
             child: Text(
-              'Next 24 hours',
+              'Next 4 hours',
               style: TextStyle(fontSize: 11, color: Colors.grey.shade500,
                   fontWeight: FontWeight.w600),
             ),
@@ -180,7 +180,7 @@ class _HourlyStrip extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.fromLTRB(8, 0, 8, 10),
             child: Row(
-              children: hourly.map((h) => _HourlyCell(h: h)).toList(),
+              children: hourly.take(4).map((h) => _HourlyCell(h: h)).toList(),
             ),
           ),
         ],
@@ -189,19 +189,26 @@ class _HourlyStrip extends StatelessWidget {
   }
 }
 
+String _hour12(DateTime t) {
+  final h    = t.hour;
+  final ampm = h < 12 ? 'am' : 'pm';
+  final h12  = h % 12 == 0 ? 12 : h % 12;
+  return '$h12$ampm';
+}
+
 class _HourlyCell extends StatelessWidget {
   final HourlyWeather h;
   const _HourlyCell({required this.h});
 
   @override
   Widget build(BuildContext context) {
-    final hh = h.time.hour.toString().padLeft(2, '0');
+    final hh = _hour12(h.time);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 6),
       child: Column(
         children: [
           Text(
-            '$hh:00',
+            hh,
             style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
           ),
           const SizedBox(height: 4),

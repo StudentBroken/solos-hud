@@ -7,40 +7,50 @@ import '../settings/app_settings.dart';
 
 // Nordic UART Service (NUS) — used by VESC BLE bridge
 const _nusService = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
-const _nusRx = '6e400002-b5a3-f393-e0a9-e50e24dcca9e'; // phone → VESC
-const _nusTx = '6e400003-b5a3-f393-e0a9-e50e24dcca9e'; // VESC  → phone
+const _nusRx      = '6e400002-b5a3-f393-e0a9-e50e24dcca9e'; // phone → VESC
+const _nusTx      = '6e400003-b5a3-f393-e0a9-e50e24dcca9e'; // VESC  → phone
 
-enum VescState { disconnected, scanning, connecting, connected }
+enum VescState { disconnected, scanning, connecting, reconnecting, connected }
 
 class VescService extends ChangeNotifier {
   final AppSettings settings;
   VescService({required this.settings});
 
-  VescState _state = VescState.disconnected;
+  VescState  _state       = VescState.disconnected;
   VescValues? _values;
-  String? _error;
-  String? _deviceName;
+  String?     _error;
+  String?     _deviceName;
 
-  // BLE internals
-  BluetoothDevice? _device;
-  BluetoothCharacteristic? _rx;
-  StreamSubscription? _notifySub;
-  StreamSubscription? _stateSub;
-  Timer? _pollTimer;
+  // BLE handles
+  BluetoothDevice?           _device;
+  BluetoothCharacteristic?   _rx;
+  StreamSubscription<List<int>>? _notifySub;
+  StreamSubscription<BluetoothConnectionState>? _stateSub;
 
-  VescState get state => _state;
-  VescValues? get values => _values;
-  String? get error => _error;
-  String? get deviceName => _deviceName;
-  bool get isConnected => _state == VescState.connected;
-  bool get scanning => _state == VescState.scanning;
+  // Request-response loop
+  Timer? _watchdog;       // fires if VESC goes quiet for too long
+  bool   _waitingForReply = false;
+  static const _watchdogMs = 350;   // resend request if no reply in 350 ms
+  static const _minIntervalMs = 60; // don't spam faster than 60 ms
 
-  // Delegate settings to AppSettings
-  int get motorPoles => settings.vescMotorPoles;
-  set motorPoles(int v) => settings.setVescMotorPoles(v);
+  // Auto-reconnect
+  bool    _userDisconnected  = false;
+  int     _reconnectAttempts = 0;
+  static const _maxReconnectAttempts = 20;
+  static const List<int> _backoffMs = [500, 1000, 2000, 4000, 8000];
 
+  // ── Public getters ────────────────────────────────────────────────────────
+  VescState   get state       => _state;
+  VescValues? get values      => _values;
+  String?     get error       => _error;
+  String?     get deviceName  => _deviceName;
+  bool        get isConnected => _state == VescState.connected;
+  bool        get scanning    => _state == VescState.scanning;
+
+  int    get motorPoles      => settings.vescMotorPoles;
+  set    motorPoles(int v)   => settings.setVescMotorPoles(v);
   double get wheelDiameterMm => settings.vescWheelDiameter;
-  set wheelDiameterMm(double v) => settings.setVescWheelDiameter(v);
+  set    wheelDiameterMm(double v) => settings.setVescWheelDiameter(v);
 
   void notifyChange() => notifyListeners();
 
@@ -48,6 +58,8 @@ class VescService extends ChangeNotifier {
 
   Future<void> scan() async {
     if (_state != VescState.disconnected) return;
+    _userDisconnected  = false;
+    _reconnectAttempts = 0;
     _setState(VescState.scanning);
     _error = null;
     notifyListeners();
@@ -55,7 +67,7 @@ class VescService extends ChangeNotifier {
     try {
       await FlutterBluePlus.startScan(
         withServices: [Guid(_nusService)],
-        timeout: const Duration(seconds: 8),
+        timeout: const Duration(seconds: 10),
       );
 
       await for (final results in FlutterBluePlus.scanResults) {
@@ -65,7 +77,7 @@ class VescService extends ChangeNotifier {
           return;
         }
       }
-      _error = 'No VESC found — make sure BLE UART is enabled on the VESC';
+      _error = 'No VESC found — enable BLE UART on the VESC';
     } catch (e) {
       _error = e.toString().split('\n').first;
     }
@@ -73,6 +85,8 @@ class VescService extends ChangeNotifier {
   }
 
   Future<void> connectToDevice(BluetoothDevice device) async {
+    _userDisconnected  = false;
+    _reconnectAttempts = 0;
     await FlutterBluePlus.stopScan();
     await _connectTo(device);
   }
@@ -80,20 +94,22 @@ class VescService extends ChangeNotifier {
   Future<void> _connectTo(BluetoothDevice device) async {
     _setState(VescState.connecting);
     try {
-      await device.connect(timeout: const Duration(seconds: 8));
-      _device = device;
+      await device.connect(
+        timeout: const Duration(seconds: 10),
+        autoConnect: false,
+      );
+      _device     = device;
       _deviceName = device.platformName.isNotEmpty
           ? device.platformName
           : device.remoteId.str;
 
-      // Request larger MTU for better performance with VESC data
-      try {
-        await device.requestMtu(247);
-      } catch (_) {}
+      // Larger MTU = fewer packets needed per GET_VALUES response
+      try { await device.requestMtu(247); } catch (_) {}
 
-      // Discover NUS characteristics
-      await Future.delayed(const Duration(milliseconds: 200));
+      // Small settle delay after connect before service discovery
+      await Future.delayed(const Duration(milliseconds: 300));
       final services = await device.discoverServices();
+
       BluetoothCharacteristic? tx;
       for (final s in services) {
         if (s.serviceUuid == Guid(_nusService)) {
@@ -103,43 +119,61 @@ class VescService extends ChangeNotifier {
           }
         }
       }
+      if (tx == null || _rx == null) throw Exception('NUS characteristics not found');
 
-      if (tx == null || _rx == null) {
-        throw Exception('NUS characteristics not found');
-      }
-
-      // Subscribe to TX notifications
+      // Subscribe to notifications from VESC
       await tx.setNotifyValue(true);
       _notifySub = tx.onValueReceived.listen(_onData);
 
-      // Watch for unexpected disconnection
+      // Watch for drops
       _stateSub = device.connectionState.listen((s) {
         if (s == BluetoothConnectionState.disconnected && isConnected) {
           _onUnexpectedDisconnect();
         }
       });
 
+      _reconnectAttempts = 0;
+      _error = null;
       _setState(VescState.connected);
 
-      // Poll every 200 ms
-      _pollTimer = Timer.periodic(
-        const Duration(milliseconds: 200),
-        (_) => _poll(),
-      );
+      // Kick off the request→response polling loop
+      _sendRequest();
+
     } catch (e) {
       _error = e.toString().split('\n').first;
-      await _cleanup();
-      _setState(VescState.disconnected);
+      await _teardown();
+      // If this was a reconnect attempt, schedule next try
+      if (!_userDisconnected && _reconnectAttempts > 0) {
+        _scheduleReconnect();
+      } else {
+        _setState(VescState.disconnected);
+      }
     }
   }
 
-  // ── Communication ─────────────────────────────────────────────────────────
+  // ── Request → response loop ───────────────────────────────────────────────
+  //
+  // Instead of a fixed timer, we send a new GET_VALUES the moment we
+  // receive and parse the previous one (capped at _minIntervalMs).
+  // A watchdog fires if the VESC goes silent for _watchdogMs — it
+  // re-sends the request so we never get stuck waiting.
 
-  void _poll() {
+  void _sendRequest() {
     if (!isConnected || _rx == null) return;
-    _rx!
-        .write(VescPacket.buildGetValues(), withoutResponse: true)
+    _waitingForReply = true;
+    _rx!.write(VescPacket.buildGetValues(), withoutResponse: true)
         .catchError((_) {});
+    // Watchdog: if no reply arrives within _watchdogMs, re-send
+    _watchdog?.cancel();
+    _watchdog = Timer(
+      const Duration(milliseconds: _watchdogMs),
+      () {
+        if (isConnected && _waitingForReply) {
+          _waitingForReply = false;
+          _sendRequest();
+        }
+      },
+    );
   }
 
   final _rxBuffer = BytesBuilder();
@@ -152,44 +186,33 @@ class VescService extends ChangeNotifier {
   void _processBuffer() {
     while (_rxBuffer.length >= 5) {
       final bytes = _rxBuffer.toBytes();
-      int? expectedLen;
+      int expectedLen;
       int payloadStart;
 
       if (bytes[0] == 0x02) {
-        expectedLen = bytes[1];
+        expectedLen  = bytes[1];
         payloadStart = 2;
       } else if (bytes[0] == 0x03) {
-        if (bytes.length < 6) return; // Wait for full header
-        expectedLen = (bytes[1] << 8) | bytes[2];
+        if (bytes.length < 6) return;
+        expectedLen  = (bytes[1] << 8) | bytes[2];
         payloadStart = 3;
       } else {
-        // Invalid start byte, skip until we find 0x02 or 0x03
+        // Corrupt byte — scan forward for next frame header
         final buf = _rxBuffer.takeBytes();
-        int? nextStart;
-        for (int i = 1; i < buf.length; i++) {
-          if (buf[i] == 0x02 || buf[i] == 0x03) {
-            nextStart = i;
-            break;
-          }
-        }
-        if (nextStart != null) {
-          _rxBuffer.add(buf.sublist(nextStart));
-          continue;
-        }
+        final next = buf.indexWhere(
+            (b) => b == 0x02 || b == 0x03, 1);
+        if (next > 0) _rxBuffer.add(buf.sublist(next));
         return;
       }
 
-      final totalFrameLen =
-          payloadStart +
-          expectedLen +
-          3; // head + len + payload + crc(2) + tail(1)
-      if (bytes.length < totalFrameLen) return; // Wait for more data
+      // 3 = CRC-hi + CRC-lo + end-byte (0x03)
+      final frameLen = payloadStart + expectedLen + 3;
+      if (bytes.length < frameLen) return; // Wait for more BLE packets
 
-      final frame = bytes.sublist(0, totalFrameLen);
-      // Consume frame from buffer
+      final frame   = bytes.sublist(0, frameLen);
       final allBytes = _rxBuffer.takeBytes();
-      if (allBytes.length > totalFrameLen) {
-        _rxBuffer.add(allBytes.sublist(totalFrameLen));
+      if (allBytes.length > frameLen) {
+        _rxBuffer.add(allBytes.sublist(frameLen));
       }
 
       final parsed = VescPacket.parse(Uint8List.fromList(frame));
@@ -197,35 +220,84 @@ class VescService extends ChangeNotifier {
         _values = parsed;
         notifyListeners();
       }
+
+      // Schedule next request — tiny gap so we don't flood
+      if (isConnected) {
+        _watchdog?.cancel();
+        _waitingForReply = false;
+        Future.delayed(const Duration(milliseconds: _minIntervalMs), _sendRequest);
+      }
     }
   }
 
-  // ── Disconnect ────────────────────────────────────────────────────────────
-
-  Future<void> disconnect() async {
-    await _cleanup();
-    _setState(VescState.disconnected);
-  }
+  // ── Reconnection ──────────────────────────────────────────────────────────
 
   void _onUnexpectedDisconnect() {
-    _cleanup();
-    _error = 'Connection lost';
+    debugPrint('[VESC] Unexpected disconnect — will reconnect');
+    _teardown();
+    _error = 'Connection lost — reconnecting…';
+    if (!_userDisconnected) {
+      _reconnectAttempts = 0;
+      _setState(VescState.reconnecting);
+      _scheduleReconnect();
+    } else {
+      _setState(VescState.disconnected);
+    }
+  }
+
+  void _scheduleReconnect() {
+    if (_userDisconnected) return;
+    if (_reconnectAttempts >= _maxReconnectAttempts) {
+      _error = 'Could not reconnect after $_maxReconnectAttempts attempts';
+      _setState(VescState.disconnected);
+      return;
+    }
+
+    final delayMs = _backoffMs[
+        _reconnectAttempts.clamp(0, _backoffMs.length - 1)];
+    _reconnectAttempts++;
+
+    debugPrint('[VESC] Reconnect attempt $_reconnectAttempts in ${delayMs}ms');
+
+    Timer(Duration(milliseconds: delayMs), () async {
+      if (_userDisconnected || isConnected) return;
+
+      final dev = _device;
+      if (dev == null) {
+        // No remembered device — fall back to a fresh scan
+        _setState(VescState.disconnected);
+        return;
+      }
+
+      _setState(VescState.reconnecting);
+      _error = 'Reconnecting… (attempt $_reconnectAttempts)';
+      notifyListeners();
+      await _connectTo(dev);
+    });
+  }
+
+  // ── Explicit disconnect ───────────────────────────────────────────────────
+
+  Future<void> disconnect() async {
+    _userDisconnected = true;
+    await _teardown();
     _setState(VescState.disconnected);
   }
 
-  Future<void> _cleanup() async {
-    _pollTimer?.cancel();
-    _pollTimer = null;
+  // ── Cleanup ───────────────────────────────────────────────────────────────
+
+  Future<void> _teardown() async {
+    _watchdog?.cancel();
+    _watchdog = null;
+    _waitingForReply = false;
     _notifySub?.cancel();
     _notifySub = null;
     _stateSub?.cancel();
     _stateSub = null;
-    try {
-      await _device?.disconnect();
-    } catch (_) {}
-    _device = null;
     _rx = null;
     _rxBuffer.clear();
+    try { await _device?.disconnect(); } catch (_) {}
+    // Keep _device reference so we can reconnect to it
   }
 
   void _setState(VescState s) {
@@ -235,7 +307,8 @@ class VescService extends ChangeNotifier {
 
   @override
   void dispose() {
-    _cleanup();
+    _userDisconnected = true;
+    _teardown();
     super.dispose();
   }
 }

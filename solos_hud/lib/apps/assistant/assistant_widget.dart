@@ -81,32 +81,176 @@ class _ModeToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isPhone = voice.phoneAssistantMode;
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey.shade900,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey.shade800),
-      ),
-      child: Row(
-        children: [
-          _ModeTab(
-            label: 'Gemini AI',
-            icon: Icons.auto_awesome,
-            selected: !isPhone,
-            onTap: () => voice.phoneAssistantMode = false,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Text(
+            'ASSISTANT MODE',
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              color: Colors.grey.shade500,
+              letterSpacing: 1.2,
+            ),
           ),
-          _ModeTab(
-            label: 'Phone Assistant',
-            icon: Icons.assistant,
-            selected: isPhone,
-            onTap: () => voice.phoneAssistantMode = true,
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: _ModeCard(
+                label: 'Gemini AI',
+                subtitle: 'On-device Gemini',
+                icon: Icons.auto_awesome,
+                selected: !isPhone,
+                selectedColor: Colors.cyanAccent,
+                onTap: () => voice.phoneAssistantMode = false,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: _ModeCard(
+                label: 'Phone',
+                subtitle: 'Google / Bixby / Siri',
+                icon: Icons.assistant,
+                selected: isPhone,
+                selectedColor: Colors.purpleAccent,
+                onTap: () => voice.phoneAssistantMode = true,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 6),
+        // Active mode banner
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          decoration: BoxDecoration(
+            color: isPhone
+                ? Colors.purpleAccent.withValues(alpha: 0.1)
+                : Colors.cyanAccent.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: isPhone
+                  ? Colors.purpleAccent.withValues(alpha: 0.4)
+                  : Colors.cyanAccent.withValues(alpha: 0.4),
+            ),
           ),
-        ],
+          child: Row(
+            children: [
+              Icon(
+                isPhone ? Icons.assistant : Icons.auto_awesome,
+                size: 16,
+                color: isPhone ? Colors.purpleAccent : Colors.cyanAccent,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'BACK button triggers: ${isPhone ? "Phone Assistant" : "Gemini AI"}',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: isPhone ? Colors.purpleAccent : Colors.cyanAccent,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ModeCard extends StatelessWidget {
+  final String label;
+  final String subtitle;
+  final IconData icon;
+  final bool selected;
+  final Color selectedColor;
+  final VoidCallback onTap;
+
+  const _ModeCard({
+    required this.label,
+    required this.subtitle,
+    required this.icon,
+    required this.selected,
+    required this.selectedColor,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
+        decoration: BoxDecoration(
+          color: selected
+              ? selectedColor.withValues(alpha: 0.15)
+              : Colors.grey.shade900,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: selected
+                ? selectedColor.withValues(alpha: 0.7)
+                : Colors.grey.shade800,
+            width: selected ? 2 : 1,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              icon,
+              size: 26,
+              color: selected ? selectedColor : Colors.grey.shade600,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: selected ? selectedColor : Colors.grey.shade400,
+              ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              subtitle,
+              style: TextStyle(
+                fontSize: 11,
+                color: selected
+                    ? selectedColor.withValues(alpha: 0.7)
+                    : Colors.grey.shade600,
+              ),
+            ),
+            if (selected) ...[
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: selectedColor.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  'ACTIVE',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w800,
+                    color: selectedColor,
+                    letterSpacing: 1,
+                  ),
+                ),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }
 }
 
+// ── (legacy _ModeTab kept for reference — not used) ───────────────────────────
 class _ModeTab extends StatelessWidget {
   final String label;
   final IconData icon;

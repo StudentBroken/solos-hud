@@ -27,6 +27,10 @@ class AppSettings extends ChangeNotifier {
   static const _keyVescBatteryChem = 'vesc_battery_chem';
   static const _keyPhoneAssistantMode = 'phone_assistant_mode';
   static const _keyPhoneAssistantType = 'phone_assistant_type';
+  static const _keyNotifEnabled        = 'notif_enabled';
+  static const _keyNotifDurationCall   = 'notif_duration_call';
+  static const _keyNotifDurationMsg    = 'notif_duration_msg';
+  static const _keyNotifDurationGen    = 'notif_duration_gen';
 
   late SharedPreferences _prefs;
 
@@ -47,6 +51,12 @@ class AppSettings extends ChangeNotifier {
   int tiltThresholdDeg = 20;
   int brightness = 128; // 0-255
   bool autoBrightness = true;
+
+  // Notification settings
+  bool notifEnabled        = true;
+  int  notifDurationCall   = 60;   // seconds
+  int  notifDurationMsg    = 12;
+  int  notifDurationGen    = 6;
 
   // Assistant settings
   bool phoneAssistantMode = false;
@@ -97,7 +107,11 @@ class AppSettings extends ChangeNotifier {
     vescWheelDiameter = _prefs.getDouble(_keyVescWheelDiameter) ?? 97.0;
     vescVoltageOffset = _prefs.getDouble(_keyVescVoltageOffset) ?? 0.0;
     vescCellCount = _prefs.getInt(_keyVescCellCount) ?? 12;
-    vescBatteryChem = _prefs.getString(_keyVescBatteryChem) ?? 'li-ion';
+    vescBatteryChem    = _prefs.getString(_keyVescBatteryChem) ?? 'li-ion';
+    notifEnabled       = _prefs.getBool(_keyNotifEnabled)        ?? true;
+    notifDurationCall  = _prefs.getInt(_keyNotifDurationCall)    ?? 60;
+    notifDurationMsg   = _prefs.getInt(_keyNotifDurationMsg)     ?? 12;
+    notifDurationGen   = _prefs.getInt(_keyNotifDurationGen)     ?? 6;
   }
 
   Future<void> setRefreshRateMs(int ms) async {
@@ -202,13 +216,14 @@ class AppSettings extends ChangeNotifier {
   }
 
   Future<void> setVescMotorPoles(int value) async {
-    vescMotorPoles = value.clamp(2, 64);
+    vescMotorPoles = value.clamp(2, 256);
     await _prefs.setInt(_keyVescMotorPoles, vescMotorPoles);
     notifyListeners();
   }
 
   Future<void> setVescWheelDiameter(double value) async {
-    vescWheelDiameter = value.clamp(50, 200);
+    // No upper cap — supports anything from small eskate wheels to 29" bike tyres
+    vescWheelDiameter = value.clamp(10, 9999);
     await _prefs.setDouble(_keyVescWheelDiameter, vescWheelDiameter);
     notifyListeners();
   }
@@ -228,6 +243,30 @@ class AppSettings extends ChangeNotifier {
   Future<void> setVescBatteryChem(String chem) async {
     vescBatteryChem = chem;
     await _prefs.setString(_keyVescBatteryChem, vescBatteryChem);
+    notifyListeners();
+  }
+
+  Future<void> setNotifEnabled(bool v) async {
+    notifEnabled = v;
+    await _prefs.setBool(_keyNotifEnabled, v);
+    notifyListeners();
+  }
+
+  Future<void> setNotifDurationCall(int secs) async {
+    notifDurationCall = secs.clamp(5, 120);
+    await _prefs.setInt(_keyNotifDurationCall, notifDurationCall);
+    notifyListeners();
+  }
+
+  Future<void> setNotifDurationMsg(int secs) async {
+    notifDurationMsg = secs.clamp(3, 60);
+    await _prefs.setInt(_keyNotifDurationMsg, notifDurationMsg);
+    notifyListeners();
+  }
+
+  Future<void> setNotifDurationGen(int secs) async {
+    notifDurationGen = secs.clamp(2, 30);
+    await _prefs.setInt(_keyNotifDurationGen, notifDurationGen);
     notifyListeners();
   }
 

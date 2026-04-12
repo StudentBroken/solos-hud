@@ -153,6 +153,7 @@ class _RootState extends State<_Root> {
     _notifOverlay = NotificationOverlayController(
       notifications: _notifications,
       hud: _hud,
+      settings: _settings,
     );
     _glassesMenu.notifButtonHandler = _notifOverlay.handleButton;
 

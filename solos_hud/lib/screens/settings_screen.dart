@@ -9,6 +9,7 @@ import '../core/glasses_app.dart';
 import '../core/hud_controller.dart';
 import '../core/solos_protocol.dart';
 import '../core/tilt_wake_service.dart';
+import '../core/notifications/notification_overlay_controller.dart';
 import '../widgets/log_viewer.dart';
 import 'scan_sheet.dart';
 import 'package:share_plus/share_plus.dart';
@@ -22,8 +23,9 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settings = context.watch<AppSettings>();
-    final hud = context.watch<HudController>();
-    final rfcomm = context.watch<RfcommService>();
+    final hud      = context.watch<HudController>();
+    final rfcomm   = context.watch<RfcommService>();
+    final notif    = context.watch<NotificationOverlayController>();
     final appsWithSettings =
         apps.where((a) => a.settingEntries.isNotEmpty).toList();
 
@@ -126,6 +128,72 @@ class SettingsScreen extends StatelessWidget {
             title: 'Tilt Wake',
             icon: Icons.screen_rotation_outlined,
             children: [const _TiltWakeSection()],
+          ),
+
+          // ── Notifications ──────────────────────────────────────────
+          _SettingsCard(
+            title: 'Notifications',
+            icon: Icons.notifications_outlined,
+            children: [
+              SwitchListTile.adaptive(
+                dense: true,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 14),
+                title: const Text('Enable Notifications'),
+                subtitle: const Text(
+                  'Show incoming notifications on glasses',
+                  style: TextStyle(fontSize: 12),
+                ),
+                value: settings.notifEnabled,
+                onChanged: settings.setNotifEnabled,
+              ),
+              const Divider(height: 1, indent: 14, endIndent: 14),
+              _SliderTile(
+                label: 'Call duration',
+                value: settings.notifDurationCall.toDouble(),
+                min: 10,
+                max: 120,
+                divisions: 22,
+                valueLabel: (v) => '${v.round()} s',
+                onChanged: (v) => settings.setNotifDurationCall(v.round()),
+                enabled: settings.notifEnabled,
+              ),
+              const Divider(height: 1, indent: 14, endIndent: 14),
+              _SliderTile(
+                label: 'Message duration',
+                value: settings.notifDurationMsg.toDouble(),
+                min: 3,
+                max: 60,
+                divisions: 19,
+                valueLabel: (v) => '${v.round()} s',
+                onChanged: (v) => settings.setNotifDurationMsg(v.round()),
+                enabled: settings.notifEnabled,
+              ),
+              const Divider(height: 1, indent: 14, endIndent: 14),
+              _SliderTile(
+                label: 'General duration',
+                value: settings.notifDurationGen.toDouble(),
+                min: 2,
+                max: 30,
+                divisions: 14,
+                valueLabel: (v) => '${v.round()} s',
+                onChanged: (v) => settings.setNotifDurationGen(v.round()),
+                enabled: settings.notifEnabled,
+              ),
+              if (notif.isActive) ...[
+                const Divider(height: 1, indent: 14, endIndent: 14),
+                ListTile(
+                  dense: true,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 14),
+                  leading: const Icon(Icons.close, size: 16, color: Colors.redAccent),
+                  title: Text(
+                    'Dismiss: ${notif.current?.appName ?? ""}  ${notif.current?.title ?? ""}',
+                    style: const TextStyle(fontSize: 13),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  onTap: notif.dismiss,
+                ),
+              ],
+            ],
           ),
 
           // ── Per-app settings ───────────────────────────────────────

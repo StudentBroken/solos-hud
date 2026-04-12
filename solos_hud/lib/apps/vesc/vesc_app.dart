@@ -169,84 +169,92 @@ class VescApp extends GlassesApp {
               ? orange
               : red;
 
-      // ── Top bar: voltage + battery bar + battery % ─────────────────────
+      // ── Top status bar (y=0..38) ──────────────────────────────────────
+      // Voltage
       _text(canvas,
           '${adjustedV.isFinite ? adjustedV.toStringAsFixed(1) : "0.0"}V',
-          x: 12, y: 8, size: 22, color: voltColor, bold: true,
-          align: ui.TextAlign.left, maxW: 100);
+          x: 10, y: 4, size: 28, color: voltColor, bold: true,
+          align: ui.TextAlign.left, maxW: 120);
 
+      // Battery bar (tall, prominent)
+      const barX = 134.0; const barY = 8.0;
+      const barW = 130.0; const barH = 18.0;
       canvas.drawRRect(
-        RRect.fromRectAndRadius(Rect.fromLTWH(116, 14, 90, 12),
-            const Radius.circular(3)),
+        RRect.fromRectAndRadius(Rect.fromLTWH(barX, barY, barW, barH),
+            const Radius.circular(4)),
         ui.Paint()..color = const Color(0xFF1A2A3A)..style = ui.PaintingStyle.fill,
       );
       canvas.drawRRect(
         RRect.fromRectAndRadius(
-            Rect.fromLTWH(116, 14, 90 * batPct, 12), const Radius.circular(3)),
-        ui.Paint()
-          ..color = batPct > 0.3 ? green : red
-          ..style = ui.PaintingStyle.fill,
+            Rect.fromLTWH(barX, barY, barW * batPct, barH),
+            const Radius.circular(4)),
+        ui.Paint()..color = batPct > 0.3 ? green : red..style = ui.PaintingStyle.fill,
       );
+      // Battery %
       _text(canvas, '$batPctInt%',
-          x: 212, y: 8, size: 18,
+          x: barX + barW + 8, y: 4, size: 26,
           color: batPct > 0.3 ? green : red, bold: true,
-          align: ui.TextAlign.left, maxW: 60);
+          align: ui.TextAlign.left, maxW: 80);
 
-      final faultColor = v.faultCode == 0 ? muted : red;
-      _text(canvas, v.faultLabel,
-          x: dw - 120, y: 8, size: 18, color: faultColor,
-          bold: v.faultCode != 0, align: ui.TextAlign.right, maxW: 118);
+      // Fault (right edge — only shown if non-zero)
+      if (v.faultCode != 0) {
+        _text(canvas, v.faultLabel,
+            x: dw - 130, y: 6, size: 20, color: red, bold: true,
+            align: ui.TextAlign.right, maxW: 128);
+      }
 
       canvas.drawRect(Rect.fromLTWH(0, 38, dw, 1),
           ui.Paint()..color = divider..style = ui.PaintingStyle.fill);
 
-      // ── Focus tabs ─────────────────────────────────────────────────────
+      // ── Focus label (y=40..60) — single line, current focus name ───────
+      // Show all 4 as tabs; selected is bright, others dim
       final tabW = dw / VescFocus.values.length;
       for (final f in VescFocus.values) {
-        final isSelected = f == _focus;
+        final sel = f == _focus;
         _text(canvas, f.label,
-            x: tabW * f.slot, y: 42, size: 13,
-            color: isSelected ? cyan : const Color(0xFF334455),
-            bold: isSelected,
+            x: tabW * f.slot, y: 40, size: 16,
+            color: sel ? cyan : const Color(0xFF2A3D50),
+            bold: sel,
             align: ui.TextAlign.center, maxW: tabW);
-        if (isSelected) {
-          canvas.drawRect(
-            Rect.fromLTWH(tabW * f.slot + 4, 59, tabW - 8, 2),
-            ui.Paint()..color = cyan..style = ui.PaintingStyle.fill,
-          );
-        }
       }
+      // Underline selected tab
+      canvas.drawRect(
+        Rect.fromLTWH(tabW * _focus.slot + 6, 59, tabW - 12, 3),
+        ui.Paint()..color = cyan..style = ui.PaintingStyle.fill,
+      );
 
       canvas.drawRect(Rect.fromLTWH(0, 63, dw, 1),
           ui.Paint()..color = divider..style = ui.PaintingStyle.fill);
 
-      // ── Big focused metric ─────────────────────────────────────────────
+      // ── Big focused metric (y=65..193) ─────────────────────────────────
       final bigVal   = _focusValue(_focus, v, speed, batPct);
       final bigUnit  = _focusUnit(_focus);
       final bigColor = _focusColor(_focus, batPct);
 
+      // Number — very large
       _text(canvas, bigVal,
-          x: 0, y: 66, size: 96, color: bigColor, bold: true,
+          x: 0, y: 62, size: 110, color: bigColor, bold: true,
           align: ui.TextAlign.center, maxW: dw);
+      // Unit label below
       _text(canvas, bigUnit,
-          x: 0, y: 168, size: 22, color: muted,
+          x: 0, y: 178, size: 26, color: muted,
           align: ui.TextAlign.center, maxW: dw);
 
-      canvas.drawRect(Rect.fromLTWH(0, 196, dw, 1),
+      canvas.drawRect(Rect.fromLTWH(0, 208, dw, 1),
           ui.Paint()..color = divider..style = ui.PaintingStyle.fill);
 
-      // ── Bottom bar: the other 3 metrics ────────────────────────────────
-      final others =
-          VescFocus.values.where((f) => f != _focus).toList();
-      final colW = dw / 3;
+      // ── Bottom bar: 2 secondary metrics (y=210..240) ───────────────────
+      // Pick the 2 most relevant from the remaining 3
+      final others = VescFocus.values.where((f) => f != _focus).take(2).toList();
       for (int i = 0; i < others.length; i++) {
         final f     = others[i];
         final val   = _focusValue(f, v, speed, batPct);
         final unit  = _focusUnit(f);
         final color = _focusColor(f, batPct);
-        _text(canvas, '${f.label}  $val $unit',
-            x: colW * i + 4, y: 203, size: 16, color: color, bold: true,
-            align: ui.TextAlign.left, maxW: colW - 4);
+        // "28.4 km/h" style — value+unit, no separate label line
+        _text(canvas, '$val $unit',
+            x: (dw / 2) * i + 8, y: 212, size: 24, color: color, bold: true,
+            align: ui.TextAlign.left, maxW: dw / 2 - 8);
       }
     }
 

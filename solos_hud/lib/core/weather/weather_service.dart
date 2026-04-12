@@ -28,7 +28,7 @@ enum WeatherCondition {
     WeatherCondition.partlyCloudy => '⛅',
     WeatherCondition.overcast => '☁',
     WeatherCondition.fog => '≡',
-    WeatherCondition.drizzle => '·rain',
+    WeatherCondition.drizzle => '☔',
     WeatherCondition.rain => '☔',
     WeatherCondition.heavyRain => '☔☔',
     WeatherCondition.snow => '❄',
@@ -179,7 +179,7 @@ class WeatherService extends ChangeNotifier {
         ',windspeed_10m,winddirection_10m,precipitation_probability'
         ',relativehumidity_2m,uv_index'
         '&hourly=temperature_2m,weathercode,precipitation_probability'
-        '&forecast_days=2&timezone=auto',
+        '&forecast_days=1&timezone=auto',
       );
 
       final res = await http
@@ -231,7 +231,7 @@ class WeatherService extends ChangeNotifier {
     final now = DateTime.now();
     final result = <HourlyWeather>[];
 
-    for (int i = 0; i < times.length && result.length < 24; i++) {
+    for (int i = 0; i < times.length && result.length < 4; i++) {
       final t = DateTime.parse(times[i]);
       if (t.isAfter(now)) {
         result.add(
