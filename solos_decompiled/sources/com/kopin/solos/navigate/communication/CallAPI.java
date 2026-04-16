@@ -16,7 +16,7 @@ public class CallAPI {
     private static final String GOOGLE_KEY_PARAMETER = "?key=";
     public static final String GOOGLE_PLACE_URL = "https://maps.googleapis.com/maps/api/place/autocomplete/json?types=geocode&radius=5000&input=";
     private static final String RETURN_TYPE = "json";
-    public static String googleAPIKey = "AIzaSyD9e7bkIye5iyXCiyxd9_MDttxgg457p18";
+    public static String googleAPIKey = "REMOVED_FOR_SECURITY";
 
     public static StringBuilder requestURL(URL url) {
         URLConnection urlConnection = null;

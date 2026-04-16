@@ -1,0 +1,20 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Secrets and Environment
+.env
+.env.*
+*.p12
+*.key
+*.pem
+local.properties
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+
+# Temp files
+/tmp/
+*.log

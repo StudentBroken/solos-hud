@@ -46,3 +46,8 @@ app.*.map.json
 
 #original app
 Solos_2.0.844_APKPure.apk
+
+# Secrets
+.env
+.env.*
+local.properties

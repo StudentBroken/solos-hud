@@ -434,7 +434,7 @@
     <string name="ghost_average_stride">Average Stride|Stride</string>
     <string name="ghost_notification_speech">You are currently %1$s %2$s the ghost %3$s %4$s</string>
     <string name="google_app_id">1:262859720528:android:7bdcea1bf5422a81</string>
-    <string name="google_maps_key">AIzaSyAhrAnv6LllsW84w8TLzt2Mn5PMOW30cRs</string>
+    <string name="google_maps_key">REMOVED_FOR_SECURITY</string>
     <string name="gps_permission_warning_message">Solos doesn\'t have access to GPS, please allow this in Settings</string>
     <string name="gps_permission_warning_title">GPS is not enabled</string>
     <string name="gr_setting_screens">Ghost Ride Active Metrics</string>
