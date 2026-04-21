@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/menuSkip"
-        android:orderInCategory="100"
-        android:title="@string/btn_skip"
-        android:onClick="onSkipClick"
-        android:showAsAction="always"/>
-</menu>

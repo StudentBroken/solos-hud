@@ -1,15 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<binfile filename="solos_2_729.bin" num_seg="2" >
-<time localtime="Fri Sep  1 14:26:00 2017
-"  > </time>
-<version  major_ver_num="7" minor_ver_num="2" subminor_ver_num="9" protocol_major_ver="1" protocol_minor_ver="0" protocol_subminor_ver="28">  </version> 
-<segments>
-<segment num="0" start_address="0" num_data="16384"  bank="1">
-<signature byte_length ="64"> e7f51049cf79ca91578f715f0246cd25b5481d4a433eac21077546336e84f34f924ab608e21aa207a4bf1b19758f30627c6d4576d96a189b9907183e262dc8dc </signature>
-</segment>
-<segment num="1" start_address="49152" num_data="956385"  bank="1">
-<signature byte_length ="64"> 74c58c6a86198c5b8ba4c2f53dd8ba3aab4f8519c835776fa1835ca9d592f5794a3f13d97ab8e2cc35a842d3c95961daa65109a22c5d40231c56f8f68f303db4 </signature>
-</segment>
-</segments>
-</binfile>
-

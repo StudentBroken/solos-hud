@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <integer name="target_pace_default">480000</integer>
-    <integer name="target_speed_default">32</integer>
-</resources>
